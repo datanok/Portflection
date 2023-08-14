@@ -1,0 +1,41 @@
+{
+    "title": "Tanmay Page",
+    "profileImage": "/assets/images/madhur.jpeg",
+    "tagline": "Full-Stack Web Developer",
+    "aboutSection": {
+      "title": "About",
+      "content": "Small Paragraph About You"
+    },
+    "experienceSection": {
+      "title": "Experience",
+      "items": [
+        {
+          "year": "2022-Present",
+          "company": "Jio",
+          "position": "Assistant Manager",
+          "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi veniam deleniti ex, earum officia quisquam et quis totam minima, sit dolor dolore quod consequatur hic a molestiae illum nobis laudantium."
+        }, {
+            "year": "2020-2022",
+            "company": "Google",
+            "position": "SDE",
+            "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi veniam deleniti ex, earum officia quisquam et quis totam minima, sit dolor dolore quod consequatur hic a molestiae illum nobis laudantium."
+          }
+      ]
+    },
+    "projectsSection": {
+      "title": "Projects",
+      "projects": [
+        {
+          "image": "/assets/images/project1.png",
+          "title": "Project 1",
+          "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni veniam voluptatem cum ut vero laboriosam, voluptate dolores id eligendi labore doloribus corporis est iste dicta saepe quis deleniti dolore quo!"
+        },
+        {
+            "image": "/assets/images/project2.png",
+            "title": "Project 2",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni veniam voluptatem cum ut vero laboriosam, voluptate dolores id eligendi labore doloribus corporis est iste dicta saepe quis deleniti dolore quo!"
+          }
+      ]
+    }
+  }
+  

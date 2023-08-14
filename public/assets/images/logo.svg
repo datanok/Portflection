@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0.4066 156.4143 497.4581 102" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="273.087" y1="205.185" x2="273.087" y2="267.389" id="gradient-1" gradientTransform="matrix(0.239363, 0.97093, -5.919336, 1.45929, 1469.092186, -260.509727)">
+      <stop offset="0" style="stop-color: rgb(46, 141, 188);"/>
+      <stop offset="1" style="stop-color: rgb(31, 81, 107);"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="41.696" y1="166.359" x2="41.696" y2="268.359" id="gradient-0" gradientTransform="matrix(0.814912, 0.579585, -0.649144, 0.912716, 30.164009, 100.626604)">
+      <stop offset="0" style="stop-color: rgb(50, 154, 206);"/>
+      <stop offset="1" style="stop-color: rgb(29, 74, 96);"/>
+    </linearGradient>
+  </defs>
+  <text style="fill: url(#gradient-1); font-family: Futura; font-size: 48px; font-weight: 800; white-space: pre;" x="-73.962" y="368.738" transform="matrix(1, 0, 0, 1, 119.94559478759766, -123.33464813232422)">ORTFOLIO FORGE</text>
+  <path d="M -119.539 285.337 L -119.115 310.954 L -115.424 313.969 L -115.946 282.402 L -119.539 285.337 Z M -111.307 279.749 L -110.695 316.727 L -48.771 317.409 L -49.382 280.432 L -111.306 279.749 L -111.307 279.749 Z M -44.655 283.188 L -44.133 314.756 L -40.539 311.821 L -40.963 286.204 L -44.655 283.188 Z M -85.654 320.827 L -85.606 323.803 L -73.636 323.933 L -73.686 320.959 L -85.654 320.827 Z M -85.542 327.626 L -85.424 334.698 L -76.884 327.722 L -85.542 327.626 Z M -85.335 340.108 L -85.199 348.299 L -73.393 338.655 L -73.529 330.463 L -85.335 340.108 Z M -85.111 353.709 L -84.974 361.9 L -73.168 352.256 L -73.304 344.065 L -85.111 353.709 Z M -81.618 364.642 L -72.962 364.736 L -73.078 357.667 L -81.618 364.642 Z M -84.866 368.43 L -84.816 371.405 L -72.849 371.537 L -72.898 368.562 L -84.866 368.43 Z M -88.379 377.055 L -85.543 381.596 L -71.786 381.749 L -69.099 377.268 L -71.413 375.378 L -86.125 375.215 L -88.379 377.055 Z" style="paint-order: fill; fill: url(#gradient-0); transform-origin: -79.367px 320.233px;" transform="matrix(1, 0, 0, 1, 119.945594787598, -123.334648132324)"/>
+</svg>
