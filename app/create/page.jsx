@@ -177,23 +177,30 @@ const Page = () => {
 
             <div className="flex flex-col gap-4">
               {jsonData.projectsSection.projects.map((project, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-5 grid-flow-row md:grid-flow-col gap-2 rounded-lg"
-                >
-                  <Image
-                    src={project.image}
-                    width="200"
-                    height="500"
-                    className="rounded-lg col-span-3 order-3 md:col-span-2 md:order-1"
-                  />
-                  <div className="col-span-4 md:order-2">
-                    <h2 className="text-md font-bold">{project.title}</h2>
-                    <p className="text-sm text-slate-500 w-fit">
-                      {project.description}
-                    </p>
+                <>
+                  <div
+                    key={index}
+                    className="grid grid-cols-5 grid-flow-row md:grid-flow-col gap-2 rounded-lg"
+                  >
+                    <Image
+                      src={project.image}
+                      width="200"
+                      height="500"
+                      className="rounded-lg col-span-3 order-3 md:col-span-2 md:order-1"
+                    />
+                    <div className="col-span-4 md:order-2">
+                      <h2 className="text-md font-bold">{project.title}</h2>
+                      <p className="text-sm text-slate-500 w-fit">
+                        {project.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                  <div className="flex gap-2 flex-wrap">
+                    <span className=" rounded-full  text-xs py-1 px-3 leading-5 bg-teal-400/10 text-teal-300">
+                      React
+                    </span>
+                  </div>
+                </>
               ))}
             </div>
           </section>

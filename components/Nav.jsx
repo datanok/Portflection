@@ -34,7 +34,7 @@ const Nav = () => {
       {/* DESKTOP Navigation*/}
       <div className="hidden md:flex">
         <div className="flex gap-3 md:gap-5">
-          <Link href="/create">Create</Link>
+          <Link href="/main/createportfolio">Create</Link>
           <Link href="/profile">Profile</Link>
         </div>
       </div>
@@ -46,7 +46,7 @@ const Nav = () => {
         </button>
         {toggle && (
           <div className="dropdown outline">
-            <Link href="/create" className="dropdown_link">
+            <Link href="/main/createportfolio" className="dropdown_link">
               Create
             </Link>
             <Link href="/profile" className="dropdown_link">
