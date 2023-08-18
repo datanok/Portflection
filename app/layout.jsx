@@ -1,3 +1,4 @@
+import Provider from "@components/Provider";
 import "@styles/globals.css";
 import { Roboto, Expletus_Sans } from "next/font/google";
 
@@ -13,7 +14,10 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en" className={`${roboto.className}` + " scroll-smooth"}>
-      <body className=" scroll-smooth">{children}</body>
+      <body className=" scroll-smooth">
+        <Provider>{children}</Provider>
+        {/* {children} */}
+      </body>
     </html>
   );
 };

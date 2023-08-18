@@ -15,12 +15,12 @@ function PortfolioForm() {
     userName: "",
     about: "",
     role: "",
-    companyName: "",
+    company: "",
     tenure: "",
     designation: "",
     accomplishments: "",
     projectName: "",
-    projectDescription: "",
+    projectDesc: "",
     projectImg: "",
     projectTags: "",
   });
@@ -28,12 +28,16 @@ function PortfolioForm() {
   const [projects, setProjects] = useState([]);
   const submitForm = () => {
     addExperience();
+
     const portfolioData = {
       userName: userData.userName,
       about: userData.about,
       role: userData.role,
       experiences: experiences,
+      projects: projects,
     };
+    console.log(projects);
+
     if (typeof window !== "undefined" && window.localStorage) {
       localStorage.setItem("portfolioData", JSON.stringify(portfolioData));
     }
@@ -47,10 +51,38 @@ function PortfolioForm() {
       designation: userData.designation,
       accomplishments: userData.accomplishments,
     };
-
-    setExperiences([...experiences, newExperience]);
+    if (
+      userData.company.length !== 0 ||
+      userData.tenure.length !== 0 ||
+      userData.designation.length !== 0 ||
+      userData.accomplishments.length !== 0
+    ) {
+      console.log("sadasd");
+      setExperiences([...experiences, newExperience]);
+      setUserData({
+        ...userData,
+        company: "",
+        tenure: "",
+        designation: "",
+        accomplishments: "",
+      });
+    }
   };
-  const addProjects = () => {};
+  const addProjects = () => {
+    const newProject = {
+      projectName: userData.projectName,
+      projectDesc: userData.projectDesc,
+      projectTags: userData.projectTags,
+      projectImg: userData.projectImg,
+    };
+    setProjects([...projects, newProject]);
+    setUserData({
+      ...userData,
+      projectName: "",
+      projectDesc: "",
+      projectTags: "",
+    });
+  };
 
   const StepDisplay = () => {
     if (step === 0)
@@ -124,7 +156,11 @@ function PortfolioForm() {
               onClick={() => {
                 setStep((currStep) => currStep - 1);
               }}
-              className="flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] "
+              className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
+                step == 0
+                  ? "bg-gray-200 cursor-not-allowed"
+                  : "hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+              }`}
             >
               <MdKeyboardArrowLeft size={24} />
               Back
@@ -138,11 +174,16 @@ function PortfolioForm() {
               Submit
             </button>
             <button
+              disabled={step == 2}
               onClick={() => {
                 setStep((currStep) => currStep + 1);
                 step === 1 && addExperience();
               }}
-              className="flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] "
+              className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
+                step == 2
+                  ? "bg-gray-200 cursor-not-allowed"
+                  : "hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+              }`}
             >
               Next
               <MdKeyboardArrowRight size={24} />
