@@ -51,7 +51,7 @@ const Nav = () => {
               <Link href="/main/createportfolio">Create</Link>
 
               <div className="relative inline-block text-left">
-                <Image
+                <img
                   src={session?.user.image}
                   height={37}
                   width={37}
@@ -67,7 +67,7 @@ const Nav = () => {
                   <div className="px-4 py-3 text-sm text-gray-900">
                     <div>Tanmay Patil</div>
                     <div className="font-medium truncate">
-                      name@flowbite.com
+                      {session?.user.email}
                     </div>
                   </div>
                   <ul
@@ -133,7 +133,7 @@ const Nav = () => {
 
                 <div className="relative inline-block text-left">
                   {console.log(session?.user.image)}
-                  <Image
+                  <img
                     src={session?.user.image}
                     height={37}
                     width={37}

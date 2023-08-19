@@ -5,20 +5,24 @@ const nextConfig = {
     serverComponentsExternalPackages: ["mongoose"],
   },
   images: {
-    protocol: "https",
-    // hostname: "*.googleusercontent.com",
-
-    // pathname: "**",
-    domains: [
-      'storage.googleapis.com',
-      'lh3.googleusercontent.com',
-      'lh1.googleusercontent.com',
-      'lh2.googleusercontent.com',
-
-      'lh4.googleusercontent.com',
-      'lh5.googleusercontent.com',
-      'lh6.googleusercontent.com',
-    ],
+   remotePatterns:[
+    {
+      protocol: "https",
+      hostname: "*.googleusercontent.com",
+ 
+      pathname: "/a/**",
+     domains: [
+       'storage.googleapis.com',
+       'lh3.googleusercontent.com',
+       'lh1.googleusercontent.com',
+       'lh2.googleusercontent.com',
+ 
+       'lh4.googleusercontent.com',
+       'lh5.googleusercontent.com',
+       'lh6.googleusercontent.com',
+     ],
+    }
+   ]
   },
   webpack(config) {
     config.experiments = {
