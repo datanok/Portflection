@@ -1,0 +1,44 @@
+
+
+### 
+GET http://localhost:3000/api/portfolio/view/64de0e8003a8c67bfa6c0232
+###
+POST  http://localhost:3000/api/portfolio/new
+
+
+{
+  "portfolioData": {
+    "userName": "JohnDoe",
+    "about": "I am a web developer",
+    "role": "Full Stack Developer",
+    "experiences": [
+      {
+        "company": "ABC Company",
+        "tenure": "2021-2023",
+        "designation": "Software Engineer",
+        "accomplishments": "Led a team of developers..."
+      },
+      {
+        "company": "XYZ Corporation",
+        "tenure": "2019-2021",
+        "designation": "Frontend Developer",
+        "accomplishments": "Developed user interfaces..."
+      }
+    ],
+    "projects": [
+      {
+        "projectName": "E-commerce Website",
+        "projectDesc": "Built a fully functional e-commerce site...",
+        "projectImg": "project-image-url.jpg",
+        "projectTags": ["Web Development", "E-commerce"]
+      },
+      {
+        "projectName": "Portfolio Website",
+        "projectDesc": "Designed and developed a personal portfolio...",
+        "projectImg": "portfolio-image-url.jpg",
+        "projectTags": ["Web Design", "Personal Branding"]
+      }
+    ],
+    "userID": "user223"
+  }
+}

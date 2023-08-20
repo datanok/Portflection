@@ -4,13 +4,14 @@ import AboutForm from "./AboutForm";
 import ExperienceForm from "./ExperienceForm";
 import ProjectsForm from "./ProjectsForm";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 function PortfolioForm() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const FormTitles = ["About You", "Experience", "Projects"];
-
+  const { data: session } = useSession();
   const [userData, setUserData] = useState({
     userName: "",
     about: "",
@@ -26,22 +27,35 @@ function PortfolioForm() {
   });
   const [experiences, setExperiences] = useState([]);
   const [projects, setProjects] = useState([]);
-  const submitForm = () => {
+  const submitForm = async () => {
     addExperience();
 
     const portfolioData = {
-      userName: userData.userName,
-      about: userData.about,
-      role: userData.role,
-      experiences: experiences,
-      projects: projects,
+      portfolioData: {
+        userName: userData.userName,
+        about: userData.about,
+        role: userData.role,
+        experiences: experiences,
+        projects: projects,
+        userID: session?.user.id,
+      },
     };
-    console.log(projects);
 
-    if (typeof window !== "undefined" && window.localStorage) {
-      localStorage.setItem("portfolioData", JSON.stringify(portfolioData));
+    try {
+      console.log(portfolioData);
+      const response = await fetch("/api/portfolio/new", {
+        method: "POST",
+        body: JSON.stringify(portfolioData),
+      });
+      if (response.ok) {
+        router.push(`/portfolio/view?id=${session?.user.id}`);
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
     }
-    router.push("/create");
+    // if (typeof window !== "undefined" && window.localStorage) {
+    //   localStorage.setItem("portfolioData", JSON.stringify(portfolioData));
+    // }
   };
 
   const addExperience = () => {
@@ -57,7 +71,6 @@ function PortfolioForm() {
       userData.designation.length !== 0 ||
       userData.accomplishments.length !== 0
     ) {
-      console.log("sadasd");
       setExperiences([...experiences, newExperience]);
       setUserData({
         ...userData,

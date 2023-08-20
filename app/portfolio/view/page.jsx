@@ -5,18 +5,29 @@ import { BsDash } from "react-icons/bs";
 import project1 from "@public/assets/images/project1.png";
 import project2 from "@public/assets/images/project2.png";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import jsonData from "./json-data.json";
+import jsonData from "../json-data.json";
 
 const Page = () => {
   const router = useRouter();
 
-  // const cookieStore = cookies();
-  // console.log(cookies);
-  // console.log(cookieStore.get("portfolioData"));
-  // const portfolioData = JSON.parse(data);
+  const searchParams = useSearchParams();
+  const userID = searchParams.get("id");
+  console.log(userID);
+  const [portfolioData, setPorfolioData] = useState({});
+
+  useEffect(() => {
+    console.log("called");
+    const getPortfolio = async () => {
+      const response = await fetch(`/api/portfolio/view/${userID}`);
+      const data = await response.json();
+      setPorfolioData(data);
+    };
+    if (userID) getPortfolio();
+  }, [userID]);
+  console.log(portfolioData);
   const data = JSON.parse(localStorage.getItem("portfolioData"));
   const [activeItem, setActiveItem] = useState("about");
   const handleItemClick = (item) => {
@@ -26,7 +37,7 @@ const Page = () => {
   return (
     <div className=" flex flex-col gap-4 text-slate-400 z-30 p-6">
       <Head>
-        <title>{data.userName}</title>
+        <title>{portfolioData.userName}</title>
       </Head>
       <div className="grid grid-cols-3">
         {/* Navigation */}
@@ -40,10 +51,11 @@ const Page = () => {
               width={100}
               height={100}
               className="rounded-full"
+              alt="image"
             />
-            <h3>Hi, I'm {data.userName}</h3>
+            <h3>Hi, I'm {portfolioData.userName}</h3>
             <h1 className="text-xl font-bold bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent">
-              {data.role}
+              {portfolioData.role}
             </h1>
           </section>
           <div className="flex flex-col gap-5 text-2xl my-8">
@@ -126,10 +138,11 @@ const Page = () => {
               width={100}
               height={100}
               className="rounded-full"
+              alt="image"
             />
-            <h3>&#128075; Hi, I'm {data.userName}</h3>
+            <h3>&#128075; Hi, I'm {portfolioData.userName}</h3>
             <h1 className="text-2xl font-black bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent">
-              {data.role}
+              {portfolioData.role}
             </h1>
           </section>
           {/* About */}
@@ -137,7 +150,9 @@ const Page = () => {
             <h2 className="text-xl bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent mb-6">
               About
             </h2>
-            <p className="text-slate-500 text-ellipsis">{data.about}</p>
+            <p className="text-slate-500 text-ellipsis">
+              {portfolioData.about}
+            </p>
           </section>
           {/* Experince */}
           <section className="py-12 md:h-screen" id="experience">
@@ -146,7 +161,7 @@ const Page = () => {
             </h2>
             <div className="container mx-auto">
               <div className="grid gap-4">
-                {data.experiences?.map((experience, index) => (
+                {portfolioData.experiences?.map((experience, index) => (
                   <div
                     key={index}
                     className="hover:bg-[#1A1A1A] flex flex-col md:flex-row gap-2 md:gap-2 p-2"
@@ -173,9 +188,8 @@ const Page = () => {
             <h1 className="text-xl bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent">
               {jsonData.projectsSection.title}
             </h1>
-
             <div className="flex flex-col gap-4">
-              {data.projects.map((project, index) => (
+              {portfolioData.projects?.map((project, index) => (
                 <>
                   <div
                     key={index}
@@ -185,6 +199,7 @@ const Page = () => {
                       src={project1}
                       width="200"
                       height="500"
+                      alt="image"
                       className="rounded-lg col-span-3 order-3 md:col-span-2 md:order-1"
                     />
                     <div className="col-span-4 md:order-2">
@@ -196,9 +211,9 @@ const Page = () => {
                       </p>
                     </div>
                   </div>
+
                   <div className="flex gap-2 flex-wrap">
-                    {console.log(project.projectTags.split(","))}
-                    {project.projectTags.split(",").map((tag) => (
+                    {project.projectTags[0].split(",").map((tag) => (
                       <span className=" rounded-full  text-xs py-1 px-3 leading-5 bg-teal-400/10 text-teal-300">
                         {tag}
                       </span>
