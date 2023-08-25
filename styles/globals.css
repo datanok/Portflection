@@ -52,10 +52,37 @@ body{
     opacity: 0.4;
     filter: invert(1);
   }
-  .portfolio{
+
+  .portfolio {
+    content: "";
     background-image: url("/assets/images/bg.svg");
-  }
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: #161616;
+
   
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+   
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+  .portbg{
+    background-image: linear-gradient(103deg, #1E1E24 0%, #0e0e11 100%);}
   .gradient {
     height: fit-content;
     z-index: 3;

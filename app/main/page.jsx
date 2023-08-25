@@ -11,7 +11,7 @@ const Home = () => {
         Create, Showcase, and Succeed with PortfolioForge
       </h3>
       <div className="text-center">
-        <button className="p-2 font-thin outline rounded-lg text-black bg-gradient-to-r from-rose-400 via-pink-300 to-rose-300">
+        <button className="p-2 font-thin outline rounded-lg text-black bg-rose-400">
           Get Started Now
         </button>
       </div>

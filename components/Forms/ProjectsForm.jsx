@@ -20,6 +20,7 @@ function ProjectsForm({
   };
   return (
     <div className="flex flex-col justify-center">
+      {/* Project preview */}
       <div className="flex flex-row gap-2 overflow-x-scroll">
         {projects.map((project, index) => (
           <div
@@ -36,13 +37,13 @@ function ProjectsForm({
             <p>{project?.tenure}</p>
             <h3>{project?.projectTags}</h3> */}
             <div className="grid grid-cols-3 md:grid-cols-1">
-              <Image
-                src={projectimg}
+              <img
+                src={project.projectImg}
                 height={500}
                 width={500}
                 className=" object-contain h-fit px-2  col-span-1"
               />
-              <div className=" flex flex-col col-span-2 md:col-span-auto">
+              <div className=" flex flex-col col-span-2 md:col-span-auto mt-2">
                 <span>{project?.projectName}</span>
                 <p className=" whitespace-normal">{project?.projectDesc}</p>
               </div>
@@ -117,12 +118,14 @@ function ProjectsForm({
           Upload file
         </label>
         <input
-          className="file:bg-gray-200 bg-gray-50 w-full  file:text-gray-900 hover:file:bg-sky-200 file:rounded-br-none file:rounded-tr-none hover:border hover:file:-blue-500 file:rounded-lg  file:px-4 file:py-2 file:mr-4 file:border-none hover:cursor-pointer border rounded-lg text-sm text-gray-400"
-          id="file_input"
+          type="text"
+          value={userData.projectImg}
+          id="name"
           onChange={(e) =>
             setUserData({ ...userData, projectImg: e.target.value })
           }
-          type="file"
+          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          placeholder="Upload Image url"
         ></input>
       </div>
       <button

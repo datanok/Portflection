@@ -15,11 +15,12 @@ function ExperienceForm({
   };
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex flex-row gap-2 overflow-x-scroll">
+      {/* Experience Preview */}
+      <div className="flex flex-row gap-2 overflow-x-scroll whitespace-normal">
         {experiences.map((experience, index) => (
           <div
             key={index}
-            className="flex min-w-full  md:min-w-[250px]  md:max-w-[250px] flex-col gap-1 text-gray-600 bg-white p-4 rounded-lg text-sm"
+            className="flex min-w-full  md:min-w-[250px]  md:max-w-[250px] flex-col gap-1  text-gray-600 bg-white p-4 rounded-lg text-sm"
           >
             <span className=" self-end">
               <AiOutlineClose
@@ -27,10 +28,14 @@ function ExperienceForm({
                 onClick={() => removeExperience(experience)}
               />
             </span>
-            <h3 className="text-black">{experience.company}</h3>
-            <p>{experience.tenure}</p>
-            <h3>{experience.designation}</h3>
-            <p className=" whitespace-normal">{experience.accomplishments}</p>
+            <div className="">
+              <h3 className="text-black">{experience.company}</h3>
+              <p>{experience.tenure}</p>
+              <h3>{experience.designation}</h3>
+              <p className=" whitespace-normal ">
+                {experience.accomplishments}
+              </p>
+            </div>
           </div>
         ))}
       </div>

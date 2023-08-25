@@ -94,6 +94,7 @@ function PortfolioForm() {
       projectName: "",
       projectDesc: "",
       projectTags: "",
+      projectImg: "",
     });
   };
 
@@ -122,7 +123,7 @@ function PortfolioForm() {
       );
   };
   return (
-    <div className="bg-blue-100 w-full p-4 m-2">
+    <div className="bg-blue-100 w-full md:w-[80%] lg:w-[60%] p-4 m-2">
       <div className="progressbar">
         <ol class="flex items-center w-full text-sm font-medium p-6 text-center text-gray-500 dark:text-gray-400 sm:text-base">
           <li
@@ -194,7 +195,7 @@ function PortfolioForm() {
               }}
               className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
                 step == 2
-                  ? "bg-gray-200 cursor-not-allowed"
+                  ? "hidden"
                   : "hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
               }`}
             >
