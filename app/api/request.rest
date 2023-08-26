@@ -8,7 +8,7 @@ POST  http://localhost:3000/api/portfolio/new
 
 {
   "portfolioData": {
-    "userName": "JohnDoe",
+    "userName": "Tanmay Patil",
     "about": "I am a web developer",
     "role": "Full Stack Developer",
     "experiences": [
@@ -29,16 +29,16 @@ POST  http://localhost:3000/api/portfolio/new
       {
         "projectName": "E-commerce Website",
         "projectDesc": "Built a fully functional e-commerce site...",
-        "projectImg": "project-image-url.jpg",
+        "projectImg": "https://cdn.dribbble.com/userupload/7202520/file/original-a2ce657ccba5c143d2faed1b3ff576dc.png?resize=400x0",
         "projectTags": ["Web Development", "E-commerce"]
       },
       {
         "projectName": "Portfolio Website",
         "projectDesc": "Designed and developed a personal portfolio...",
-        "projectImg": "portfolio-image-url.jpg",
+        "projectImg": "https://cdn.dribbble.com/userupload/4060584/file/original-a2dcb88a24da79db509636a26cd98052.png?resize=400x0",
         "projectTags": ["Web Design", "Personal Branding"]
       }
     ],
-    "userID": "user223"
+    "userID": "64de0e8003a8c67bfa6c0232"
   }
 }

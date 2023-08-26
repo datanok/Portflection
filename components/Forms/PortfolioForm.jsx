@@ -42,7 +42,6 @@ function PortfolioForm() {
     };
 
     try {
-      console.log(portfolioData);
       const response = await fetch("/api/portfolio/new", {
         method: "POST",
         body: JSON.stringify(portfolioData),

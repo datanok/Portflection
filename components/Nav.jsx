@@ -21,12 +21,24 @@ const Nav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [providers, setProviders] = useState(null);
+  const [viewPortfolio, setViewPortfolio] = useState(false);
+
+  if (session) {
+    const portfolioExistsCheck = async () => {
+      console.log(session.user.id);
+      const response = await fetch(`/api/portfolio/view/${session.user.id}`);
+
+      if (response) setViewPortfolio(true);
+    };
+    portfolioExistsCheck();
+  }
 
   useEffect(() => {
     const setUpProviders = async () => {
       const response = await getProviders();
       setProviders(response);
     };
+
     setUpProviders();
   }, []);
   return (
@@ -48,7 +60,11 @@ const Nav = () => {
           <Link href="/">Home</Link>
           {session?.user ? (
             <>
-              <Link href="/main/createportfolio">Create</Link>
+              {viewPortfolio ? (
+                <Link href={`/portfolio/view?id=${session.user.id}`}>View</Link>
+              ) : (
+                <Link href="/main/createportfolio">Create</Link>
+              )}
 
               <div className="relative inline-block text-left">
                 <img
@@ -99,7 +115,6 @@ const Nav = () => {
             </>
           ) : (
             <>
-              {" "}
               {providers &&
                 Object.values(providers).map((provider) => (
                   <button
