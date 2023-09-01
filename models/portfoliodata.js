@@ -44,9 +44,10 @@ const portfolioSchema = new Schema({
       projectName: String,
       projectDesc: String,
       projectImg: String,
-      projectTags: [String],
+      projectTags: String,
     },
   ],
+  skills:{type:String},
   userID: { type: String, required: [true, "Userid is required"] },
 });
 

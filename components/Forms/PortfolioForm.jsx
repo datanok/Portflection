@@ -10,12 +10,13 @@ import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 function PortfolioForm() {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const FormTitles = ["About You", "Experience", "Projects"];
+
   const { data: session } = useSession();
   const [userData, setUserData] = useState({
     userName: "",
     about: "",
     role: "",
+    skills: "",
     company: "",
     tenure: "",
     designation: "",
@@ -35,12 +36,13 @@ function PortfolioForm() {
         userName: userData.userName,
         about: userData.about,
         role: userData.role,
+        skills: userData.skills,
         experiences: experiences,
         projects: projects,
         userID: session?.user.id,
       },
     };
-
+    console.log(portfolioData);
     try {
       const response = await fetch("/api/portfolio/new", {
         method: "POST",
@@ -52,9 +54,6 @@ function PortfolioForm() {
     } catch (error) {
       console.error("Fetch Error:", error);
     }
-    // if (typeof window !== "undefined" && window.localStorage) {
-    //   localStorage.setItem("portfolioData", JSON.stringify(portfolioData));
-    // }
   };
 
   const addExperience = () => {
@@ -164,7 +163,7 @@ function PortfolioForm() {
             <button
               type="button"
               data-te-ripple-init
-              data-te-ripple-color="light"
+              data-te-ripple-color="blue"
               disabled={step == 0}
               onClick={() => {
                 setStep((currStep) => currStep - 1);

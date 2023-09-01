@@ -7,7 +7,7 @@ export const POST = async (req) => {
   try {
     await connectToDB();
 
-    const { userName, about, role, experiences, projects, userID } = portfolioData;
+    const { userName, about, role,skills, experiences, projects, userID } = portfolioData;
 
     // Check if a portfolio already exists with the same userID
     const existingPortfolio = await Portfolio.findOne({ userID });
@@ -17,6 +17,7 @@ export const POST = async (req) => {
       existingPortfolio.userName = userName;
       existingPortfolio.about = about;
       existingPortfolio.role = role;
+      existingPortfolio.skills=skills;
       existingPortfolio.experiences = experiences;
       existingPortfolio.projects = projects;
       await existingPortfolio.save();
@@ -28,6 +29,7 @@ export const POST = async (req) => {
         userName,
         about,
         role,
+        skills,
         experiences,
         projects,
         userID,

@@ -33,9 +33,7 @@ function ProjectsForm({
                 onClick={() => removeProject(project)}
               />
             </span>
-            {/* <h3 className="text-black">{project?.projectName}</h3>
-            <p>{project?.tenure}</p>
-            <h3>{project?.projectTags}</h3> */}
+
             <div className="grid grid-cols-3 md:grid-cols-1">
               <img
                 src={project.projectImg}
@@ -115,7 +113,7 @@ function ProjectsForm({
           class="block mb-2 text-sm font-medium text-gray-900 "
           for="file_input"
         >
-          Upload file
+          Project Image URL
         </label>
         <input
           type="text"

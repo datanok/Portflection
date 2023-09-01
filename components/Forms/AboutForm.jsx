@@ -1,5 +1,3 @@
-import React from "react";
-
 function AboutForm({ userData, setUserData }) {
   return (
     <div>
@@ -50,6 +48,22 @@ function AboutForm({ userData, setUserData }) {
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Eg. Full Stack Web Developer"
           required
+        ></input>
+      </div>
+      <div class="mb-6">
+        <label
+          for="email"
+          class="block mb-2 text-sm font-medium text-gray-900 "
+        >
+          Skills
+        </label>
+        <input
+          type="text"
+          value={userData.skills}
+          id="name"
+          onChange={(e) => setUserData({ ...userData, skills: e.target.value })}
+          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+          placeholder="Enter skills seperated by a comma ' , '"
         ></input>
       </div>
     </div>
