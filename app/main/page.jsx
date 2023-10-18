@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Expletus_Sans } from "next/font/google";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { GrUpdate } from "react-icons/gr";
-import HeroImg from "@public/assets/images/Homepage.gif";
+import HeroImg from "@public/assets/images/homepage.gif";
 import logo from "@public/assets/images/rlogo.svg";
 import {
   AiFillGithub,
