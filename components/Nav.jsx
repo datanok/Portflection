@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Expletus_Sans } from "next/font/google";
 import { AiOutlineMenu } from "react-icons/ai";
 import logo from "@public/assets/images/rlogo.svg";
-import profile from "@public/assets/images/madhur.jpeg";
 
 const ExpletusSans = Expletus_Sans({
   subsets: ["latin"],
@@ -25,10 +25,9 @@ const Nav = () => {
 
   if (session) {
     const portfolioExistsCheck = async () => {
-      console.log(session.user.id);
       const response = await fetch(`/api/portfolio/view/${session.user.id}`);
 
-      if (response) setViewPortfolio(true);
+      if (response.status === 200) setViewPortfolio(true);
     };
     portfolioExistsCheck();
   }
@@ -81,7 +80,7 @@ const Nav = () => {
                   } bg-white absolute right-0 z-10 mt-2 origin-top-right ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100 rounded-lg shadow w-44`}
                 >
                   <div className="px-4 py-3 text-sm text-gray-900">
-                    <div>Tanmay Patil</div>
+                    <div> {session?.user.name}</div>
                     <div className="font-medium truncate">
                       {session?.user.email}
                     </div>
@@ -131,64 +130,62 @@ const Nav = () => {
       </div>
 
       {/* Mobile Navigation */}
+
       <div className="flex md:hidden relative">
         <button onClick={() => setToggle(!toggle)}>
           <AiOutlineMenu size={24} />
         </button>
         {toggle && (
-          <div className="dropdown outline">
-            <Link href="/" className="dropdown-link">
-              Home
-            </Link>
+          <div className="dropdown bg-white mt-2 origin-top-right ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100 rounded-lg shadow ">
             {session?.user ? (
               <>
-                <Link href="/main/createportfolio" className="dropdown-link">
-                  Create
-                </Link>
+                <img
+                  src={session?.user.image}
+                  height={37}
+                  width={37}
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="rounded-full"
+                />
+                <div class="px-4 py-3 border-b-2 border-gray-500">
+                  <span class="block text-sm text-gray-900">
+                    {session?.user.name}
+                  </span>
+                  <span class="block text-sm  text-gray-500 truncate ">
+                    {session?.user.email}
+                  </span>
+                </div>
 
-                <div className="relative inline-block text-left">
-                  {console.log(session?.user.image)}
-                  <img
-                    src={session?.user.image}
-                    height={37}
-                    width={37}
-                    onClick={() => setShowDropdown(!showDropdown)}
-                    className="rounded-full"
-                  />
-                  <div
-                    id="dropdownInformation"
-                    className={` ${
-                      showDropdown ? "z-10" : "hidden"
-                    } bg-white absolute right-0 z-10 mt-2 origin-top-right ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100 rounded-lg shadow w-44`}
+                {viewPortfolio ? (
+                  <Link
+                    href={`/portfolio/view?id=${session.user.id}`}
+                    className="w-full rounded-lg"
                   >
-                    <div className="px-4 py-3 text-sm text-gray-900">
-                      <div>Tanmay Patil</div>
-                      <div className="font-medium truncate">
-                        name@flowbite.com
-                      </div>
+                    <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
+                      View
                     </div>
-                    <ul
-                      className="py-2 text-sm text-gray-700 "
-                      aria-labelledby="dropdownInformationButton"
-                    >
-                      <li>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 hover:bg-gray-100"
-                        >
-                          Profile
-                        </a>
-                      </li>
-                    </ul>
-                    <div className="py-2">
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
-                      >
-                        Sign out
-                      </Link>
+                  </Link>
+                ) : (
+                  <Link
+                    href="/main/createportfolio"
+                    className="w-full rounded-lg py-2"
+                  >
+                    <div className="w-full text-center  text-sm text-gray-700 hover:bg-gray-100 py-2">
+                      Create
                     </div>
-                  </div>
+                  </Link>
+                )}
+                <div className="w-full rounded-lg">
+                  <button
+                    onClick={() => {
+                      setShowDropdown(!showDropdown);
+                      signOut();
+                    }}
+                    className="w-full text-left text-sm text-gray-700 hover:bg-gray-100 "
+                  >
+                    <div className="w-full text-center  text-sm text-gray-700 hover:bg-gray-100 py-2">
+                      Sign Out
+                    </div>
+                  </button>
                 </div>
               </>
             ) : (

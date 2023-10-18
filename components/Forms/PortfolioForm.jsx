@@ -2,6 +2,7 @@
 import { useState } from "react";
 import AboutForm from "./AboutForm";
 import ExperienceForm from "./ExperienceForm";
+import ContactForm from "./ContactForm";
 import ProjectsForm from "./ProjectsForm";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -13,6 +14,7 @@ function PortfolioForm() {
 
   const { data: session } = useSession();
   const [userData, setUserData] = useState({
+    profileImg: "",
     userName: "",
     about: "",
     role: "",
@@ -25,6 +27,10 @@ function PortfolioForm() {
     projectDesc: "",
     projectImg: "",
     projectTags: "",
+    email: "",
+    githubLink: "",
+    instagramLink: "",
+    linkedinLink: "",
   });
   const [experiences, setExperiences] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -33,16 +39,21 @@ function PortfolioForm() {
 
     const portfolioData = {
       portfolioData: {
+        profileImg: userData.profileImg,
         userName: userData.userName,
         about: userData.about,
         role: userData.role,
         skills: userData.skills,
         experiences: experiences,
         projects: projects,
+        email: userData.email,
+        githubLink: userData.githubLink,
+        instagramLink: userData.instagramLink,
+        linkedinLink: userData.linkedinLink,
         userID: session?.user.id,
       },
     };
-    console.log(portfolioData);
+
     try {
       const response = await fetch("/api/portfolio/new", {
         method: "POST",
@@ -109,7 +120,7 @@ function PortfolioForm() {
           addExperience={addExperience}
         />
       );
-    else
+    else if (step === 2)
       return (
         <ProjectsForm
           userData={userData}
@@ -119,6 +130,7 @@ function PortfolioForm() {
           addProjects={addProjects}
         />
       );
+    else return <ContactForm userData={userData} setUserData={setUserData} />;
   };
   return (
     <div className="bg-blue-100 w-full md:w-[80%] lg:w-[60%] p-4 m-2">
@@ -146,18 +158,26 @@ function PortfolioForm() {
           </li>
           <li
             onClick={() => setStep(2)}
+            class={`flex md:w-full items-center cursor-pointer ${
+              step === 2 ? "text-blue-600" : "after:border-gray-600"
+            }  sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-600 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10`}
+          >
+            <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+              Projects
+            </span>
+          </li>
+
+          <li
+            onClick={() => setStep(3)}
             class={`flex items-center cursor-pointer ${
-              step === 2 ? "text-blue-600" : ""
+              step === 3 ? "text-blue-600" : ""
             }`}
           >
-            Projects
+            Contact
           </li>
         </ol>
 
         <div className="form-container">
-          {/* <div className="header">
-            <h1>{FormTitles[step]}</h1>
-          </div> */}
           <div className="body">{StepDisplay()}</div>
           <div className="footer flex justify-between">
             <button
@@ -170,7 +190,7 @@ function PortfolioForm() {
               }}
               className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
                 step == 0
-                  ? "bg-gray-200 cursor-not-allowed"
+                  ? "bg-gray-300 text-gray-400  cursor-not-allowed"
                   : "hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
               }`}
             >
@@ -186,15 +206,15 @@ function PortfolioForm() {
               Submit
             </button>
             <button
-              disabled={step == 2}
+              disabled={step == 3}
               onClick={() => {
                 setStep((currStep) => currStep + 1);
                 step === 1 && addExperience();
               }}
               className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
-                step == 2
-                  ? "hidden"
-                  : "hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+                step == 3
+                  ? "bg-gray-300 text-gray-400 cursor-not-allowed"
+                  : "hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]  focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
               }`}
             >
               Next

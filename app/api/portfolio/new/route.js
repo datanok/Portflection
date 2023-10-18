@@ -6,26 +6,34 @@ export const POST = async (req) => {
 
   try {
     await connectToDB();
+    const { userName, about, role,skills, experiences, projects, userID, email,githubLink,instagramLink,linkedinLink} = portfolioData;
 
-    const { userName, about, role,skills, experiences, projects, userID } = portfolioData;
+    //const {profileImg, userName, about, role,skills, experiences, projects, userID, email,githubLink,instagramLink,linkedinLink} = portfolioData;
 
     // Check if a portfolio already exists with the same userID
     const existingPortfolio = await Portfolio.findOne({ userID });
 
     if (existingPortfolio) {
       // If portfolio exists, update its fields
+      // existingPortfolio.porfileImg = profileImg,
       existingPortfolio.userName = userName;
       existingPortfolio.about = about;
       existingPortfolio.role = role;
       existingPortfolio.skills=skills;
       existingPortfolio.experiences = experiences;
       existingPortfolio.projects = projects;
+      existingPortfolio.email = email;
+      existingPortfolio.githubLink = githubLink;
+      existingPortfolio.instagramLink = instagramLink;
+      existingPortfolio.linkedinLink = linkedinLink;
+
       await existingPortfolio.save();
 
       return new Response(JSON.stringify(existingPortfolio), { status: 200 });
     } else {
       // If portfolio doesn't exist, create a new one
       const newPortfolio = new Portfolio({
+        // profileImg,
         userName,
         about,
         role,
@@ -33,6 +41,10 @@ export const POST = async (req) => {
         experiences,
         projects,
         userID,
+        email,
+        githubLink,
+        instagramLink,
+        linkedinLink
       });
       await newPortfolio.save();
       
