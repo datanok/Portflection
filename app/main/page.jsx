@@ -9,12 +9,7 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { GrUpdate } from "react-icons/gr";
 import HeroImg from "@public/assets/images/homepage.gif";
 import logo from "@public/assets/images/rlogo.svg";
-import {
-  AiFillGithub,
-  AiFillLinkedin,
-  AiFillInstagram,
-  AiOutlineLink,
-} from "react-icons/ai";
+import { AiFillGithub, AiFillLinkedin, AiFillInstagram } from "react-icons/ai";
 
 const ExpletusSans = Expletus_Sans({
   subsets: ["latin"],
@@ -23,6 +18,8 @@ const ExpletusSans = Expletus_Sans({
 });
 const Home = () => {
   const [providers, setProviders] = useState(null);
+  const { data: session } = useSession();
+  console.log(session);
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -47,18 +44,22 @@ const Home = () => {
             personalized online portfolio.
           </h3>
           <div className="text-center">
-            <button className="p-2 rounded-lg text-white font-bold bg-red-500">
-              {providers &&
-                Object.values(providers).map((provider) => (
-                  <button
-                    type="button"
-                    key={provider.name}
-                    onClick={() => signIn(provider.id)}
-                  >
-                    Get Started Now
-                  </button>
-                ))}
-            </button>
+            {session ? (
+              <></>
+            ) : (
+              <button className="p-2 rounded-lg text-white font-bold bg-red-500">
+                {providers &&
+                  Object.values(providers).map((provider) => (
+                    <button
+                      type="button"
+                      key={provider.name}
+                      onClick={() => signIn(provider.id)}
+                    >
+                      Get Started Now
+                    </button>
+                  ))}
+              </button>
+            )}
           </div>
         </section>
         <div className="mx-auto rounded-full mt-8 w-4/5 md:w-3/5">
@@ -176,7 +177,7 @@ const Home = () => {
           <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <div className="sm:flex sm:items-center sm:justify-between">
               <a
-                href="https://flowbite.com"
+                href="https://portflection.vercel.app/"
                 className="flex items-center mb-4 sm:mb-0"
               >
                 <Image

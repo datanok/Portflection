@@ -6,6 +6,7 @@ import ContactForm from "./ContactForm";
 import ProjectsForm from "./ProjectsForm";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 function PortfolioForm() {
@@ -32,38 +33,51 @@ function PortfolioForm() {
     instagramLink: "",
     linkedinLink: "",
   });
+  const [formValid, setformValid] = useState(false);
+
+  const isFormValid = () => {
+    // Check if all values in userData are not empty
+    return Object.values(userData).every((value) => value !== "");
+  };
+
   const [experiences, setExperiences] = useState([]);
   const [projects, setProjects] = useState([]);
   const submitForm = async () => {
     addExperience();
+    console.log(userData);
+    if (isFormValid()) {
+      const portfolioData = {
+        portfolioData: {
+          profileImg: userData.profileImg,
+          userName: userData.userName,
+          about: userData.about,
+          role: userData.role,
+          skills: userData.skills,
+          experiences: experiences,
+          projects: projects,
+          email: userData.email,
+          githubLink: userData.githubLink,
+          instagramLink: userData.instagramLink,
+          linkedinLink: userData.linkedinLink,
+          userID: session?.user.id,
+        },
+      };
 
-    const portfolioData = {
-      portfolioData: {
-        profileImg: userData.profileImg,
-        userName: userData.userName,
-        about: userData.about,
-        role: userData.role,
-        skills: userData.skills,
-        experiences: experiences,
-        projects: projects,
-        email: userData.email,
-        githubLink: userData.githubLink,
-        instagramLink: userData.instagramLink,
-        linkedinLink: userData.linkedinLink,
-        userID: session?.user.id,
-      },
-    };
-
-    try {
-      const response = await fetch("/api/portfolio/new", {
-        method: "POST",
-        body: JSON.stringify(portfolioData),
-      });
-      if (response.ok) {
-        router.push(`/portfolio/view?id=${session?.user.id}`);
+      try {
+        const response = await fetch("/api/portfolio/new", {
+          method: "POST",
+          body: JSON.stringify(portfolioData),
+        });
+        if (response.ok) {
+          router.push(`/portfolio/view?id=${session?.user.id}`);
+        }
+      } catch (error) {
+        console.error("Fetch Error:", error);
       }
-    } catch (error) {
-      console.error("Fetch Error:", error);
+    } else {
+      console.log("asdas");
+      toast("Fields cannot be empty.");
+      return;
     }
   };
 
@@ -134,6 +148,7 @@ function PortfolioForm() {
   };
   return (
     <div className="bg-blue-100 w-full md:w-[80%] lg:w-[60%] p-4 m-2">
+      <Toaster />
       <div className="progressbar">
         <ol class="flex items-center w-full text-sm font-medium p-6 text-center text-gray-500 dark:text-gray-400 sm:text-base">
           <li
@@ -210,6 +225,7 @@ function PortfolioForm() {
               onClick={() => {
                 setStep((currStep) => currStep + 1);
                 step === 1 && addExperience();
+                step === 2 && addProjects();
               }}
               className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
                 step == 3
