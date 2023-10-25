@@ -19,7 +19,6 @@ const ExpletusSans = Expletus_Sans({
 const Home = () => {
   const [providers, setProviders] = useState(null);
   const { data: session } = useSession();
-  console.log(session);
 
   useEffect(() => {
     const setUpProviders = async () => {

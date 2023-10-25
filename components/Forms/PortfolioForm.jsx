@@ -44,7 +44,7 @@ function PortfolioForm() {
   const [projects, setProjects] = useState([]);
   const submitForm = async () => {
     addExperience();
-    console.log(userData);
+
     if (isFormValid()) {
       const portfolioData = {
         portfolioData: {
@@ -75,7 +75,6 @@ function PortfolioForm() {
         console.error("Fetch Error:", error);
       }
     } else {
-      console.log("asdas");
       toast("Fields cannot be empty.");
       return;
     }
