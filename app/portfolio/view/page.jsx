@@ -46,6 +46,9 @@ const Page = () => {
 
   return (
     <>
+      {/* <div className="main">
+        <div className="gradient" />
+      </div> */}
       <button
         className="md:fixed left-5 text-[#9a9a9a] hover:text-slate-200"
         onClick={() => router.back()}
