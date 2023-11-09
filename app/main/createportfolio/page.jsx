@@ -1,4 +1,7 @@
 import PortfolioForm from "@components/Forms/PortfolioForm";
+export const metadata = {
+  title: "Portfolio Form",
+};
 
 const page = () => {
   return (

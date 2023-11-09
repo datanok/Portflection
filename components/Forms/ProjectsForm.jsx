@@ -1,6 +1,8 @@
 import { AiOutlineClose } from "react-icons/ai";
 import projectimg from "@public/assets/images/project1.png";
 import Image from "next/image";
+import { Tooltip } from "flowbite-react";
+import { GrCircleInformation } from "react-icons/gr";
 function ProjectsForm({
   userData,
   setUserData,
@@ -110,11 +112,18 @@ function ProjectsForm({
       </div>
       <div className="mb-6">
         <label
-          class="block mb-2 text-sm font-medium text-gray-900 "
+          class=" mb-2 text-sm font-medium text-gray-900 flex gap-2 "
           for="file_input"
         >
           Project Image URL
+          <Tooltip
+            content="Image Upload will be available once i figure out aws "
+            style="light"
+          >
+            <GrCircleInformation className="" size={18} />
+          </Tooltip>
         </label>
+
         <input
           type="text"
           value={userData.projectImg}

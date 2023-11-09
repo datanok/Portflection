@@ -31,7 +31,9 @@ const Page = () => {
       const data = await response.json();
 
       setPorfolioData(data);
+
       setLoading(false);
+      document.title = portfolioData.userName;
     };
     if (userID) {
       getPortfolio();
@@ -71,7 +73,8 @@ const Page = () => {
                   width={100}
                   height={100}
                   className="rounded-full"
-                  alt="image"
+                  alt="Profile Image"
+                  loading="lazy"
                 />
                 <h3 className="md:font-bold">
                   &#128075; Hi, I'm {portfolioData.userName}
@@ -206,7 +209,8 @@ const Page = () => {
                   width={100}
                   height={100}
                   className="rounded-full"
-                  alt="image"
+                  alt="Profile Image"
+                  loading="lazy"
                 />
                 <h3 className="md:font-bold">
                   &#128075; Hi, I'm {portfolioData.userName}
@@ -307,7 +311,7 @@ const Page = () => {
                               loading="lazy"
                               width={200}
                               height={30}
-                              alt="image"
+                              alt="Project Image"
                               className="rounded-lg col-span-6 order-2 md:col-span-2 md:order-1"
                             />
                             <div className="col-span-6 md:order-2 order-1 md:col-span-4">

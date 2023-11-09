@@ -36,8 +36,13 @@ function PortfolioForm() {
   const [formValid, setformValid] = useState(false);
 
   const isFormValid = () => {
-    // Check if all values in userData are not empty
-    return Object.values(userData).every((value) => value !== "");
+    // Check if all userData fields are not empty and there's at least one experience
+    return (
+      userData.userName !== "" &&
+      userData.about !== "" &&
+      userData.role !== "" &&
+      experiences.length >= 1
+    );
   };
 
   const [experiences, setExperiences] = useState([]);
@@ -110,14 +115,21 @@ function PortfolioForm() {
       projectTags: userData.projectTags,
       projectImg: userData.projectImg,
     };
-    setProjects([...projects, newProject]);
-    setUserData({
-      ...userData,
-      projectName: "",
-      projectDesc: "",
-      projectTags: "",
-      projectImg: "",
-    });
+    if (
+      userData.projectName.length !== 0 ||
+      userData.projectDesc.length !== 0 ||
+      userData.projectTags.length !== 0 ||
+      userData.projectImg.length !== 0
+    ) {
+      setProjects([...projects, newProject]);
+      setUserData({
+        ...userData,
+        projectName: "",
+        projectDesc: "",
+        projectTags: "",
+        projectImg: "",
+      });
+    }
   };
 
   const StepDisplay = () => {
