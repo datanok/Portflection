@@ -33,7 +33,7 @@ const Page = () => {
       setPorfolioData(data);
 
       setLoading(false);
-      document.title = portfolioData.userName;
+      document.title = data.userName;
     };
     if (userID) {
       getPortfolio();
