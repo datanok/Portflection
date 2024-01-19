@@ -1,6 +1,6 @@
 # PortfolioForge
 
-PortfolioForge is a user-friendly web application that allows you to effortlessly create and share stunning portfolios. With a straightforward form-based approach, you can generate personalized portfolios to showcase your work, skills, and achievements.
+Portflection is a user-friendly web application that allows you to effortlessly create and share stunning portfolios. With a straightforward form-based approach, you can generate personalized portfolios to showcase your work, skills, and achievements.
 
 ## Tech Stack
 
@@ -27,7 +27,7 @@ git clone https://github.com/your-username/PortfolioForge.git
 Navigate to the project's root directory and install the necessary dependencies.
 
 ```bash
-cd PortfolioForge
+cd Portflection
 npm install
 ```
 
