@@ -41,7 +41,7 @@ const Nav = () => {
     setUpProviders();
   }, []);
   return (
-    <nav className="flex flex-row justify-between p-3 w-full mb-16">
+    <nav className="flex flex-row justify-between p-3 w-full mb-6">
       <Link href="/" className="flex gap-2 flex-center">
         <Image src={logo} className="object-contain" width={30} height={30} />
         <p

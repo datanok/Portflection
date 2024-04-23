@@ -7,32 +7,31 @@ import ProjectsForm from "./ProjectsForm";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
+import { connect } from "react-redux";
+import {
+  setUserData,
+  setExperiences,
+  setExperienceData,
+  setProjectData,
+  setProjects,
+} from "../redux/Action";
 
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-function PortfolioForm() {
+function PortfolioForm(props) {
   const router = useRouter();
   const [step, setStep] = useState(0);
+  console.log(props);
+  const {
+    userData,
+    setUserData,
+    projects,
+    experiences,
+   
+    contactData
+  } = props;
 
   const { data: session } = useSession();
-  const [userData, setUserData] = useState({
-    profileImg: "",
-    userName: "",
-    about: "",
-    role: "",
-    skills: "",
-    company: "",
-    tenure: "",
-    designation: "",
-    accomplishments: "",
-    projectName: "",
-    projectDesc: "",
-    projectImg: "",
-    projectTags: "",
-    email: "",
-    githubLink: "",
-    instagramLink: "",
-    linkedinLink: "",
-  });
+
   const [formValid, setformValid] = useState(false);
 
   const isFormValid = () => {
@@ -45,10 +44,8 @@ function PortfolioForm() {
     );
   };
 
-  const [experiences, setExperiences] = useState([]);
-  const [projects, setProjects] = useState([]);
   const submitForm = async () => {
-    addExperience();
+
 
     if (isFormValid()) {
       const portfolioData = {
@@ -60,10 +57,10 @@ function PortfolioForm() {
           skills: userData.skills,
           experiences: experiences,
           projects: projects,
-          email: userData.email,
-          githubLink: userData.githubLink,
-          instagramLink: userData.instagramLink,
-          linkedinLink: userData.linkedinLink,
+          email: contactData.email,
+          githubLink: contactData.githubLink,
+          instagramLink: contactData.instagramLink,
+          linkedinLink: contactData.linkedinLink,
           userID: session?.user.id,
         },
       };
@@ -85,76 +82,12 @@ function PortfolioForm() {
     }
   };
 
-  const addExperience = () => {
-    const newExperience = {
-      company: userData.company,
-      tenure: userData.tenure,
-      designation: userData.designation,
-      accomplishments: userData.accomplishments,
-    };
-    if (
-      userData.company.length !== 0 ||
-      userData.tenure.length !== 0 ||
-      userData.designation.length !== 0 ||
-      userData.accomplishments.length !== 0
-    ) {
-      setExperiences([...experiences, newExperience]);
-      setUserData({
-        ...userData,
-        company: "",
-        tenure: "",
-        designation: "",
-        accomplishments: "",
-      });
-    }
-  };
-  const addProjects = () => {
-    const newProject = {
-      projectName: userData.projectName,
-      projectDesc: userData.projectDesc,
-      projectTags: userData.projectTags,
-      projectImg: userData.projectImg,
-    };
-    if (
-      userData.projectName.length !== 0 ||
-      userData.projectDesc.length !== 0 ||
-      userData.projectTags.length !== 0 ||
-      userData.projectImg.length !== 0
-    ) {
-      setProjects([...projects, newProject]);
-      setUserData({
-        ...userData,
-        projectName: "",
-        projectDesc: "",
-        projectTags: "",
-        projectImg: "",
-      });
-    }
-  };
 
   const StepDisplay = () => {
     if (step === 0)
       return <AboutForm userData={userData} setUserData={setUserData} />;
-    else if (step === 1)
-      return (
-        <ExperienceForm
-          userData={userData}
-          setUserData={setUserData}
-          experiences={experiences}
-          setExperiences={setExperiences}
-          addExperience={addExperience}
-        />
-      );
-    else if (step === 2)
-      return (
-        <ProjectsForm
-          userData={userData}
-          setUserData={setUserData}
-          projects={projects}
-          setProjects={setProjects}
-          addProjects={addProjects}
-        />
-      );
+    else if (step === 1) return <ExperienceForm />;
+    else if (step === 2) return <ProjectsForm />;
     else return <ContactForm userData={userData} setUserData={setUserData} />;
   };
   return (
@@ -235,8 +168,8 @@ function PortfolioForm() {
               disabled={step == 3}
               onClick={() => {
                 setStep((currStep) => currStep + 1);
-                step === 1 && addExperience();
-                step === 2 && addProjects();
+                // step === 1 && addExperience(experienceData)
+                // step === 2 && addProjects();
               }}
               className={`flex items-center rounded-full bg-white px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out  ${
                 step == 3
@@ -253,5 +186,15 @@ function PortfolioForm() {
     </div>
   );
 }
+const mapStateToProps = (state) => ({
+  userData: state.userData,
+  projects: state.projects,
+  contactData: state.contactData,
+  experiences: state.experiences,
+});
+const mapDispatchToProps = (dispatch) => ({
+  setUserData: (value) => dispatch(setUserData(value)),
 
-export default PortfolioForm;
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PortfolioForm);

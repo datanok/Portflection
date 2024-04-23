@@ -1,4 +1,10 @@
-function AboutForm({ userData, setUserData }) {
+import { connect } from "react-redux";
+import {
+  setUserData,
+
+} from "../redux/Action";
+function AboutForm(props) {
+  const { userData, setUserData } = props
   return (
     <div>
       <div class="mb-6">
@@ -70,4 +76,14 @@ function AboutForm({ userData, setUserData }) {
   );
 }
 
-export default AboutForm;
+const mapStateToProps = (state) => ({
+  userData: state.userData,
+
+});
+const mapDispatchToProps = (dispatch) => ({
+  setUserData: (value) => dispatch(setUserData(value)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AboutForm);
+

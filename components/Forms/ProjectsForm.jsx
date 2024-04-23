@@ -3,13 +3,41 @@ import projectimg from "@public/assets/images/project1.png";
 import Image from "next/image";
 import { Tooltip } from "flowbite-react";
 import { GrCircleInformation } from "react-icons/gr";
-function ProjectsForm({
-  userData,
-  setUserData,
-  projects,
-  setProjects,
-  addProjects,
-}) {
+import {setProjectData,setProjects} from '../redux/Action'
+import { connect } from "react-redux";
+function ProjectsForm(props) {
+  const {
+    setProjectData,
+    projectData,
+    projects,
+    setProjects,
+  } = props;
+
+  const addProjects = () => {
+    const newProject = {
+      projectName: projectData.projectName,
+      projectDesc: projectData.projectDesc,
+      projectTags: projectData.projectTags,
+      projectImg: projectData.projectImg,
+    };
+    if (
+      projectData.projectName.length !== 0 ||
+      projectData.projectDesc.length !== 0 ||
+      projectData.projectTags.length !== 0 ||
+      projectData.projectImg.length !== 0
+    ) {
+      setProjects([...projects, newProject]);
+      setProjectData({
+        ...projectData,
+        projectName: "",
+        projectDesc: "",
+        projectTags: "",
+        projectImg: "",
+      });
+    }
+  };
+
+  
   const removeProject = (projectToremove) => {
     const updatedProjects = projects.filter(
       (project) => project !== projectToremove
@@ -23,8 +51,8 @@ function ProjectsForm({
   return (
     <div className="flex flex-col justify-center">
       {/* Project preview */}
-      <div className="flex flex-row gap-2 overflow-x-scroll">
-        {projects.map((project, index) => (
+      {projects && Array.isArray(projects) && projects.length > 0 && <div className="flex flex-row gap-2 overflow-x-scroll">
+        {projects?.map((project, index) => (
           <div
             key={index}
             className="flex min-w-full  md:min-w-[300px]  md:max-w-[250px] flex-col gap-1 text-gray-600 bg-white p-4 rounded-lg text-sm"
@@ -39,8 +67,8 @@ function ProjectsForm({
             <div className="grid grid-cols-3 md:grid-cols-1">
               <img
                 src={project.projectImg}
-                height={500}
-                width={500}
+                height={300}
+                width={300}
                 className=" object-contain h-fit px-2  col-span-1"
               />
               <div className=" flex flex-col col-span-2 md:col-span-auto mt-2">
@@ -57,7 +85,7 @@ function ProjectsForm({
             </div>
           </div>
         ))}
-      </div>
+      </div>} 
       <div class="mb-6">
         <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 ">
           Project Name
@@ -66,9 +94,9 @@ function ProjectsForm({
           type="text"
           id="projectname"
           onChange={(e) =>
-            setUserData({ ...userData, projectName: e.target.value })
+            setProjectData({ ...projectData, projectName: e.target.value })
           }
-          value={userData.projectName}
+          value={projectData.projectName}
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Name of your Project"
           required
@@ -84,9 +112,9 @@ function ProjectsForm({
         <textarea
           id="message"
           rows="4"
-          value={userData.projectDesc}
+          value={projectData.projectDesc}
           onChange={(e) =>
-            setUserData({ ...userData, projectDesc: e.target.value })
+            setProjectData({ ...projectData, projectDesc: e.target.value })
           }
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-400 focus:border-red-400"
           placeholder="Small Description About Project..."
@@ -101,10 +129,10 @@ function ProjectsForm({
         </label>
         <input
           type="text"
-          value={userData.projectTags}
+          value={projectData.projectTags}
           id="name"
           onChange={(e) =>
-            setUserData({ ...userData, projectTags: e.target.value })
+            setProjectData({ ...projectData, projectTags: e.target.value })
           }
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Enter tags seperated by a comma ',' (Optional)"
@@ -126,10 +154,10 @@ function ProjectsForm({
 
         <input
           type="text"
-          value={userData.projectImg}
+          value={projectData.projectImg}
           id="name"
           onChange={(e) =>
-            setUserData({ ...userData, projectImg: e.target.value })
+            setProjectData({ ...projectData, projectImg: e.target.value })
           }
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Upload Image url"
@@ -145,4 +173,15 @@ function ProjectsForm({
   );
 }
 
-export default ProjectsForm;
+const mapStateToProps = (state) => ({
+  projects: state.projects,
+  projectData: state.projectData,
+  
+})
+const mapDispatchToProps = (dispatch) => ({
+  setProjectData: (value) => dispatch(setProjectData(value)),
+  setProjects: (value) => dispatch(setProjects(value)),
+
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(ProjectsForm);

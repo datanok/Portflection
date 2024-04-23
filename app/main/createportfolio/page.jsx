@@ -5,7 +5,7 @@ export const metadata = {
 
 const page = () => {
   return (
-    <div className="flex justify-center m-4 bg-white">
+    <div className="flex justify-center mx-4 bg-white">
       <PortfolioForm />
     </div>
   );

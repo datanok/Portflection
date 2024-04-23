@@ -1,12 +1,38 @@
 import { AiOutlineClose } from "react-icons/ai";
+import {setExperienceData,setExperiences} from '../redux/Action'
+import { connect } from "react-redux";
 
-function ExperienceForm({
-  userData,
-  setUserData,
-  experiences,
-  setExperiences,
-  addExperience,
-}) {
+function ExperienceForm(props) {
+  const {
+    experienceData,
+    setExperienceData,
+    experiences,
+    setExperiences,
+  }= props
+
+  const addExperience = () => {
+    const newExperience = {
+      company: experienceData.company,
+      tenure: experienceData.tenure,
+      designation: experienceData.designation,
+      accomplishments: experienceData.accomplishments,
+    };
+    if (
+      experienceData.company.length !== 0 ||
+      experienceData.tenure.length !== 0 ||
+      experienceData.designation.length !== 0 ||
+      experienceData.accomplishments.length !== 0
+    ) {
+      setExperiences([...experiences, newExperience]);
+      setExperienceData({
+        ...experienceData,
+        company: "",
+        tenure: "",
+        designation: "",
+        accomplishments: "",
+      });
+    }
+  };
   const removeExperience = (experienceToremove) => {
     const updatedExp = experiences.filter(
       (experience) => experience !== experienceToremove
@@ -16,7 +42,7 @@ function ExperienceForm({
   return (
     <div className="flex flex-col justify-center">
       {/* Experience Preview */}
-      <div className="flex flex-row gap-2 overflow-x-scroll whitespace-normal">
+      {experiences && Array.isArray(experiences)&& experiences.length > 0 && <div className="flex flex-row gap-2 overflow-x-scroll whitespace-normal">
         {experiences.map((experience, index) => (
           <div
             key={index}
@@ -38,16 +64,16 @@ function ExperienceForm({
             </div>
           </div>
         ))}
-      </div>
+      </div>}
       <div class="mb-6">
         <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 ">
           Company Name
         </label>
         <input
           type="text"
-          value={userData.company}
+          value={experienceData.company}
           onChange={(e) =>
-            setUserData({ ...userData, company: e.target.value })
+            setExperienceData({ ...experienceData, company: e.target.value })
           }
           id="company"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -61,8 +87,8 @@ function ExperienceForm({
         </label>
         <input
           type="text"
-          onChange={(e) => setUserData({ ...userData, tenure: e.target.value })}
-          value={userData.tenure}
+          onChange={(e) => setExperienceData({ ...experienceData, tenure: e.target.value })}
+          value={experienceData.tenure}
           id="tenure"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Eg. 2021 - 2022 or 2022 - Present"
@@ -76,9 +102,9 @@ function ExperienceForm({
         <input
           type="text"
           onChange={(e) =>
-            setUserData({ ...userData, designation: e.target.value })
+            setExperienceData({ ...experienceData, designation: e.target.value })
           }
-          value={userData.designation}
+          value={experienceData.designation}
           id="company"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Designation or Role"
@@ -95,9 +121,9 @@ function ExperienceForm({
         <textarea
           id="message"
           onChange={(e) =>
-            setUserData({ ...userData, accomplishments: e.target.value })
+            setExperienceData({ ...experienceData, accomplishments: e.target.value })
           }
-          value={userData.accomplishments}
+          value={experienceData.accomplishments}
           rows="4"
           class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-400 focus:border-red-400"
           placeholder="Achievements of your Job..."
@@ -113,4 +139,17 @@ function ExperienceForm({
   );
 }
 
-export default ExperienceForm;
+
+const mapStateToProps = (state) => ({
+  experienceData: state.experienceData,
+  experiences:state.experiences,
+  experienceData:state.experienceData,
+  
+})
+const mapDispatchToProps = (dispatch) => ({
+  setExperienceData: (value) => dispatch(setExperienceData(value)),
+  setExperiences: (value) => dispatch(setExperiences(value)),
+
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(ExperienceForm);

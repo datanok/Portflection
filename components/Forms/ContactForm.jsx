@@ -1,4 +1,8 @@
-function ContactForm({ userData, setUserData }) {
+import {setContactData} from '../redux/Action'
+import { connect } from "react-redux";
+
+function ContactForm(props) {
+  const { contactData, setContactData } = props;
   return (
     <div>
       <div class="mb-6">
@@ -8,8 +12,8 @@ function ContactForm({ userData, setUserData }) {
         <input
           type="email"
           id="name"
-          value={userData.email}
-          onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+          value={contactData.email}
+          onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Your Email"
           required
@@ -23,9 +27,9 @@ function ContactForm({ userData, setUserData }) {
           Github Link
         </label>
         <input
-          value={userData.githubLink}
+          value={contactData.githubLink}
           onChange={(e) =>
-            setUserData({ ...userData, githubLink: e.target.value })
+            setContactData({ ...contactData, githubLink: e.target.value })
           }
           id="message"
           type="url"
@@ -43,9 +47,9 @@ function ContactForm({ userData, setUserData }) {
         <input
           type="url"
           onChange={(e) =>
-            setUserData({ ...userData, instagramLink: e.target.value })
+            setContactData({ ...contactData, instagramLink: e.target.value })
           }
-          value={userData.instagramLink}
+          value={contactData.instagramLink}
           id="name"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Your Instagram Profile Link"
@@ -61,10 +65,10 @@ function ContactForm({ userData, setUserData }) {
         </label>
         <input
           type="url"
-          value={userData.linkedinLink}
+          value={contactData.linkedinLink}
           id="name"
           onChange={(e) =>
-            setUserData({ ...userData, linkedinLink: e.target.value })
+            setContactData({ ...contactData, linkedinLink: e.target.value })
           }
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           placeholder="Your LinkedIn Profile Link"
@@ -74,4 +78,16 @@ function ContactForm({ userData, setUserData }) {
   );
 }
 
-export default ContactForm;
+
+const mapStateToProps = (state) => ({
+  contactData: state.contactData,
+  
+})
+const mapDispatchToProps = (dispatch) => ({
+  setContactData: (value) => dispatch(setContactData(value)),
+  setContactData: (value) => dispatch(setContactData(value)),
+
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(ContactForm);
+
