@@ -19,7 +19,7 @@ https://portflection.vercel.app/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/PortfolioForge.git
+git clone https://github.com/datanok/Portflection.git
 ```
 
 2. Install Dependencies:
