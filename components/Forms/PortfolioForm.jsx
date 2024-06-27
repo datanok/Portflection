@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AboutForm from "./AboutForm";
 import ExperienceForm from "./ExperienceForm";
 import ContactForm from "./ContactForm";
 import ProjectsForm from "./ProjectsForm";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 import { connect } from "react-redux";
@@ -14,26 +14,31 @@ import {
   setExperienceData,
   setProjectData,
   setProjects,
+  setContactData,
+  createPortfolio
 } from "../redux/Action";
 
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
+import Loader from "@components/Loader/Loader";
 function PortfolioForm(props) {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  console.log(props);
   const {
     userData,
     setUserData,
     projects,
     experiences,
-   
-    contactData
+    contactData,
+    portfolioData,
+    setExperiences,
+    setProjects,
+    setContactData
+    
   } = props;
 
   const { data: session } = useSession();
 
-  const [formValid, setformValid] = useState(false);
-
+  
   const isFormValid = () => {
     // Check if all userData fields are not empty and there's at least one experience
     return (
@@ -45,43 +50,35 @@ function PortfolioForm(props) {
   };
 
   const submitForm = async () => {
-
-
     if (isFormValid()) {
       const portfolioData = {
-        portfolioData: {
-          profileImg: userData.profileImg,
-          userName: userData.userName,
-          about: userData.about,
-          role: userData.role,
-          skills: userData.skills,
-          experiences: experiences,
-          projects: projects,
-          email: contactData.email,
-          githubLink: contactData.githubLink,
-          instagramLink: contactData.instagramLink,
-          linkedinLink: contactData.linkedinLink,
-          userID: session?.user.id,
-        },
+        profileImg: userData.profileImg,
+        userName: userData.userName,
+        about: userData.about,
+        role: userData.role,
+        skills: userData.skills,
+        experiences: experiences,
+        projects: projects,
+        email: contactData.email,
+        githubLink: contactData.githubLink,
+        instagramLink: contactData.instagramLink,
+        linkedinLink: contactData.linkedinLink,
+        userID: session?.user.id,
       };
-
+  
       try {
-        const response = await fetch("/api/portfolio/new", {
-          method: "POST",
-          body: JSON.stringify(portfolioData),
-        });
-        if (response.ok) {
-          router.push(`/portfolio/view?id=${session?.user.id}`);
-        }
+        console.log("Submitting portfolio data:", portfolioData);
+        await createPortfolio(portfolioData, session);
+        router.push(`/portfolio/view?id=${session?.user.id}`);
       } catch (error) {
-        console.error("Fetch Error:", error);
+        console.error("Error creating portfolio:", error);
+        toast("Failed to create portfolio. Please try again.");
       }
     } else {
       toast("Fields cannot be empty.");
-      return;
     }
   };
-
+  
 
   const StepDisplay = () => {
     if (step === 0)
@@ -90,8 +87,37 @@ function PortfolioForm(props) {
     else if (step === 2) return <ProjectsForm />;
     else return <ContactForm userData={userData} setUserData={setUserData} />;
   };
+  useEffect(() => {
+    if (portfolioData) {
+      setUserData({
+        ...userData,
+        userName: portfolioData?.userName,
+        role: portfolioData?.role,
+        about: portfolioData?.about,
+        skills:portfolioData?.skills.replace(/[\r\n]+/gm, " ")
+      });
+      if(experiences.length <1){
+        setExperiences([...experiences, ...(portfolioData?.experiences || [])]);
+      }
+      if(projects.length <1){
+        setProjects([...projects, ...(portfolioData?.projects || [])]);
+      }
+
+      setContactData({
+        ...contactData,
+        email:portfolioData?.email,
+        githubLink:portfolioData?.githubLink,
+        instagramLink:portfolioData?.instagramLink,
+        linkedinLink:portfolioData?.linkedinLink,
+
+      })
+
+    }
+  }, [portfolioData]);
+
   return (
-    <div className="bg-blue-100 w-full md:w-[80%] lg:w-[60%] p-4 m-2">
+    <>
+     <div className="bg-blue-200 w-full md:w-[80%] lg:w-[60%] p-4 m-2">
       <Toaster />
       <div className="progressbar">
         <ol class="flex items-center w-full text-sm font-medium p-6 text-center text-gray-500 dark:text-gray-400 sm:text-base">
@@ -136,8 +162,8 @@ function PortfolioForm(props) {
           </li>
         </ol>
 
-        <div className="form-container">
-          <div className="body">{StepDisplay()}</div>
+        <div className="form-container animate-slideInFromRight">
+          <div className="body ">{StepDisplay()}</div>
           <div className="footer flex justify-between">
             <button
               type="button"
@@ -184,6 +210,8 @@ function PortfolioForm(props) {
         </div>
       </div>
     </div>
+    {props.loading === true && <Loader/>}
+    </> 
   );
 }
 const mapStateToProps = (state) => ({
@@ -191,10 +219,17 @@ const mapStateToProps = (state) => ({
   projects: state.projects,
   contactData: state.contactData,
   experiences: state.experiences,
+  portfolioData: state.portfolioData,
+  loading: state.loading,
+  
 });
-const mapDispatchToProps = (dispatch) => ({
-  setUserData: (value) => dispatch(setUserData(value)),
 
-});
+const mapDispatchToProps = {
+  setUserData,
+  setExperiences,
+  setProjects,
+  setContactData,
+  createPortfolio
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PortfolioForm);

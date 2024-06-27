@@ -10,33 +10,28 @@ import {
   AiOutlineLink,
 } from "react-icons/ai";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-
-import Head from "next/head";
+import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import { useSession } from "next-auth/react";
 import jsonData from "../json-data.json";
+import { getPortfolio } from "@components/redux/Action";
+import projectPlaceholder from "@public/assets/images/projectPlaceholder.svg"
 
-const Page = () => {
+const Page = (props) => {
+  const {getPortfolio,loading} = props;
+  const { data: session } = useSession();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+
   const searchParams = useSearchParams();
   const userID = searchParams.get("id");
 
-  const [portfolioData, setPorfolioData] = useState({});
-
   useEffect(() => {
-    const getPortfolio = async () => {
-      const response = await fetch(`/api/portfolio/view/${userID}`);
-      const data = await response.json();
-
-      setPorfolioData(data);
-
-      setLoading(false);
-      document.title = data.userName;
-    };
-    if (userID) {
-      getPortfolio();
+    if(!session && !props.portfolioData){
+      getPortfolio(userID)
+    }
+    else if(session && session.user && (session.user.id !==userID)){
+      getPortfolio(userID)
     }
   }, [userID]);
 
@@ -45,25 +40,26 @@ const Page = () => {
   const handleItemClick = (item) => {
     setActiveItem(item);
   };
+ 
 
   return (
     <>
-      {/* <div className="main">
+      <div className="main">
         <div className="gradient" />
-      </div> */}
+      </div>
       <button
-        className="md:fixed left-5 text-[#9a9a9a] hover:text-slate-200"
+        className="md:sticky w-fit left-10 top-10 text-[#9a9a9a] hover:text-slate-200"
         onClick={() => router.back()}
       >
         <BsFillArrowLeftCircleFill size={24} />
       </button>
-      <div className="flex flex-col gap-4 text-[#9a9a9a] z-30 h-screen ">
+      <div className="flex flex-col gap-4  text-[#9a9a9a] md:-my-[2em] z-30">
         {loading ? (
           <PortfolioLoading />
         ) : (
-          <div className="grid grid-cols-3 mx-auto max-w-screen-xl py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
+          <div className="w-full  flex justify-center max-w-screen-xl max-h-screen py-12 md:px-12 md:py-0 lg:px-24 lg:py-0">
             {/* Navigation */}
-            <nav className="w-full flex-col hidden md:flex md:sticky md:top-0 md:max-h-screen md:justify-between  md:flex-col  md:py-12">
+            <nav className="w-full md:w-[40%] flex-col hidden md:flex md:sticky md:max-h-screen md:my-0 md:py-8 md:justify-between md:flex-col ">
               <section
                 id="home"
                 className=" w-full flex flex-col items-start md:items-center gap-2"
@@ -77,13 +73,13 @@ const Page = () => {
                   loading="lazy"
                 />
                 <h3 className="md:font-bold">
-                  &#128075; Hi, I'm {portfolioData.userName}
+                  &#128075; Hi, I'm {props.portfolioData?.userName}
                 </h3>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent">
-                  {portfolioData.role}
+                <h1 className="text-xl  bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent">
+                  {props.portfolioData?.role}
                 </h1>
               </section>
-              <div className="flex flex-col gap-5 text-2xl md:mb-56">
+              <div className="hidden  gap-5 text-2xl  md:flex flex-col ">
                 <a
                   className="group flex items-center py-3"
                   href="#about"
@@ -169,19 +165,19 @@ const Page = () => {
                   </span>
                 </a>
               </div>
-              <div className="flex gap-4 my-4 items-center">
-                {portfolioData.githubLink && (
+              <div className=" gap-4 hidden md:flex">
+                {props.portfolioData?.githubLink && (
                   <a
-                    href={portfolioData.githubLink}
+                    href={props.portfolioData?.githubLink}
                     target="_blank"
                     className="hover:text-white"
                   >
                     <AiFillGithub size={32} />
                   </a>
                 )}
-                {portfolioData.linkedinLink && (
+                {props.portfolioData?.linkedinLink && (
                   <a
-                    href={portfolioData.linkedinLink}
+                    href={props.portfolioData.linkedinLink}
                     className="hover:text-white"
                     target="_blank"
                   >
@@ -189,9 +185,9 @@ const Page = () => {
                   </a>
                 )}
 
-                {portfolioData.instagramLink && (
+                {props.portfolioData?.instagramLink && (
                   <a
-                    href={portfolioData.instagramLink}
+                    href={props.portfolioData?.instagramLink}
                     target="_blank"
                     className="hover:text-white"
                   >
@@ -201,7 +197,7 @@ const Page = () => {
               </div>
             </nav>
 
-            <div className=" col-span-3 md:col-span-2">
+            <div className="w-full md:w-[60%] overflow-y-auto [&::-webkit-scrollbar]:hidden">
               {/* Mobile view */}
               <section className="w-full flex md:hidden flex-col mb-12 items-center gap-2">
                 <Image
@@ -213,15 +209,16 @@ const Page = () => {
                   loading="lazy"
                 />
                 <h3 className="md:font-bold">
-                  &#128075; Hi, I'm {portfolioData.userName}
+                  &#128075; Hi, I'm {props.portfolioData?.userName}
                 </h3>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent">
-                  {portfolioData.role}
+                  {props.portfolioData?.role}
                 </h1>
               </section>
-              <Suspense fallback={<div>Loading...</div>}>
+              {/* Mobile view end*/}
+
                 <div
-                  className="flex flex-col justify-center gap-14 md:gap-20"
+                  className="flex flex-col gap-14 md:gap-20"
                   id="about"
                 >
                   {/* About */}
@@ -231,7 +228,7 @@ const Page = () => {
                     </h2>
 
                     <p className="text-primary-gray md:text-md text-ellipsis">
-                      {portfolioData.about}
+                      {props.portfolioData?.about}
                     </p>
                   </section>
                   {/* Experince */}
@@ -243,13 +240,13 @@ const Page = () => {
                       Experience
                     </h2>
                     <div className="container mx-2 md:mx-auto">
-                      <ol className="relative border-l border-gray-500/30">
-                        {portfolioData.experiences?.map((experience, index) => (
+                      <ol className="ml-[1em] relative border-l border-gray-500/30">
+                        { props.portfolioData && props.portfolioData.experiences && Array.isArray(props.portfolioData.experiences) && props.portfolioData?.experiences?.map((experience, index) => (
                           <li
                             className="pb-10 pl-6 transition motion-reduce:transition-none group md:hover:bg-gray-500/10 lg:hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:hover:drop-shadow-lg hover:bg-opacity-10"
                             key={index}
                           >
-                            <span className="absolute group-hover:bg-slate-300 flex items-center justify-center w-6 h-6 bg-gray-500/10 rounded-full -left-3 ring-2 ring-gray-500/30  ">
+                            <span className="absolute group-hover:bg-slate-300 flex items-center justify-center w-6 h-6 bg-gray-500/10 rounded-full -left-3 ring-2 ring-gray-500/30 z-3 ">
                               <AiTwotoneCalendar className="group-hover:text-black" />
                             </span>
 
@@ -275,12 +272,12 @@ const Page = () => {
                         Skills
                       </h2>
 
-                      {portfolioData.skills ? (
-                        <div className="flex gap-4 flex-wrap">
-                          {portfolioData.skills
+                      {props.portfolioData && props.portfolioData?.skills && props.portfolioData?.skills ? (
+                        <div className=" ml-[1em] flex gap-4 flex-wrap">
+                          {props.portfolioData?.skills
                             .split(",")
                             .map((skill, index) => (
-                              <span className="text-sm md:text-md uppercase hover:px-6 tracking-widest transition-all hover:scale-x-200 ease-in-out delay-100  outline outline-gray-500 hover:outline-gray-300 rounded-full p-1 px-2 bg-primary-gray text-gray-300 hover:text-gray-200 bg-opacity-20 backdrop-blur-lg ">
+                              <span className="text-sm  uppercase hover:px-6 tracking-widest transition-all hover:scale-x-200 ease-in-out delay-100  outline outline-1 outline-gray-400 hover:outline-gray-300 rounded-full p-1 px-2 bg-primary-gray text-gray-300 hover:text-gray-200 bg-opacity-20 backdrop-blur-lg ">
                                 {skill}
                               </span>
                             ))}
@@ -300,7 +297,7 @@ const Page = () => {
                       Projects
                     </h1>
                     <div className="flex flex-col sm:mx-2 gap-4">
-                      {portfolioData.projects?.map((project, index) => (
+                      {props.portfolioData?.projects?.map((project, index) => (
                         <>
                           <div
                             key={index}
@@ -336,7 +333,6 @@ const Page = () => {
                     </div>
                   </section>
                 </div>
-              </Suspense>
             </div>
           </div>
         )}
@@ -348,9 +344,9 @@ const Page = () => {
             </a>
           </span>
           <div className="flex gap-4 justify-center">
-            {portfolioData.githubLink && (
+            {props.portfolioData?.githubLink && (
               <a
-                href={portfolioData.githubLink}
+                href={props.portfolioData?.githubLink}
                 target="_blank"
                 className="hover:text-white"
               >
@@ -370,5 +366,13 @@ const Page = () => {
     </>
   );
 };
+const mapStateToProps = (state) => ({
+  portfolioData:state.portfolioData,
+  loading:state.loading
+});
+const mapDispatchToProps = (dispatch) => ({
+  getPortfolio: (value) => dispatch(getPortfolio(value)),
 
-export default Page;
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

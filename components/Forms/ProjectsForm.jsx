@@ -49,7 +49,7 @@ function ProjectsForm(props) {
     return tags;
   };
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center animate-slideInFromRight">
       {/* Project preview */}
       {projects && Array.isArray(projects) && projects.length > 0 && <div className="flex flex-row gap-2 overflow-x-scroll">
         {projects?.map((project, index) => (
@@ -147,6 +147,7 @@ function ProjectsForm(props) {
           <Tooltip
             content="Image Upload will be available once i figure out aws "
             style="light"
+            trigger="hover"
           >
             <GrCircleInformation className="" size={18} />
           </Tooltip>

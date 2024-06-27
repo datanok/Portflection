@@ -1,11 +1,11 @@
 import PortfolioForm from "@components/Forms/PortfolioForm";
 export const metadata = {
-  title: "Portfolio Form",
+  title: "Edit Form",
 };
 
 const page = () => {
   return (
-    <div className="flex justify-center mx-4 bg-white opacity-25">
+    <div className="flex justify-center mx-4">
       <PortfolioForm />
     </div>
   );

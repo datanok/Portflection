@@ -1,13 +1,12 @@
 import Providers from "@components/Provider";
 import "@styles/globals.css";
-import { Roboto, Expletus_Sans } from "next/font/google";
-import logo from "@public/assets/images/logo.svg";
-import Head from "next/head";
+import { Inter, Expletus_Sans } from "next/font/google";
 
-const roboto = Roboto({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "700", "900"],
-  style: ["normal", "italic"],
+  display: "swap",
+    adjustFontFallback: false,
 });
 export const metadata = {
   title: "Portfolio Forge",
@@ -20,7 +19,7 @@ export const metadata = {
 };
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en" className={`${roboto.className}` + " scroll-smooth"}>
+    <html lang="en" className={`${inter.className}` + " scroll-smooth"}>
       <body className=" scroll-smooth">
         <Providers>{children}</Providers>
       </body>

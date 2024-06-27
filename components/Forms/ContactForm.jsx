@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 function ContactForm(props) {
   const { contactData, setContactData } = props;
   return (
-    <div>
+    <div className='animate-slideInFromRight'>
       <div class="mb-6">
         <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 ">
           Email

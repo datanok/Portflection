@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { useRouter } from 'next/navigation'
+import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Expletus_Sans } from "next/font/google";
 import { AiOutlineMenu } from "react-icons/ai";
 import logo from "@public/assets/images/rlogo.svg";
+import { connect } from "react-redux";
+import { getPortfolio, setDialog } from "../components/redux/Action";
 
 const ExpletusSans = Expletus_Sans({
   subsets: ["latin"],
@@ -14,32 +16,20 @@ const ExpletusSans = Expletus_Sans({
   // style: ["italic", "normal"],
 });
 
-const Nav = () => {
+const Nav = (props) => {
+  const { portfolioData, loading } = props;
   const [toggle, setToggle] = useState(false);
-
-  const { data: session } = useSession();
+  const { data: session,status,} = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const [providers, setProviders] = useState(null);
-  const [viewPortfolio, setViewPortfolio] = useState(false);
-
-  if (session) {
-    const portfolioExistsCheck = async () => {
-      const response = await fetch(`/api/portfolio/view/${session.user.id}`);
-
-      if (response.status === 200) setViewPortfolio(true);
-    };
-    portfolioExistsCheck();
-  }
-
+  
   useEffect(() => {
-    const setUpProviders = async () => {
-      const response = await getProviders();
-      setProviders(response);
-    };
+    if (session && !props.portfolioData) {
+      props.getPortfolio(session.user.id);
+      
+    }
+  }, [session]);
 
-    setUpProviders();
-  }, []);
+
   return (
     <nav className="flex flex-row justify-between p-3 w-full mb-6">
       <Link href="/" className="flex gap-2 flex-center">
@@ -57,14 +47,19 @@ const Nav = () => {
       <div className="hidden md:flex">
         <div className="flex items-center gap-3 md:gap-5">
           <Link href="/">Home</Link>
+          {status === "loading" ? (
+            <div className="h-[50%] bg-gray-300 rounded-full w-16 animate-pulse"></div>
+          ) : (
+            status === "authenticated" && (
+              <>
+                <Link href={`/portfolio/view?id=${session.user.id}`}>View</Link>
+                <Link href={`/main/edit?id=${session.user.id}`}>Edit</Link>
+              </>
+            )
+          )}
+
           {session?.user ? (
             <>
-              {viewPortfolio ? (
-                <Link href={`/portfolio/view?id=${session.user.id}`}>View</Link>
-              ) : (
-                <Link href="/main/createportfolio">Create</Link>
-              )}
-
               <div className="relative inline-block text-left">
                 <img
                   src={session?.user.image}
@@ -114,16 +109,9 @@ const Nav = () => {
             </>
           ) : (
             <>
-              {providers &&
-                Object.values(providers).map((provider) => (
-                  <button
-                    type="button"
-                    key={provider.name}
-                    onClick={() => signIn(provider.id)}
-                  >
-                    Sign In
-                  </button>
-                ))}
+             <button type="button" onClick={() => props.setDialog(true)}>
+                  Sign In
+              </button>
             </>
           )}
         </div>
@@ -155,15 +143,25 @@ const Nav = () => {
                   </span>
                 </div>
 
-                {viewPortfolio ? (
-                  <Link
-                    href={`/portfolio/view?id=${session.user.id}`}
-                    className="w-full rounded-lg"
-                  >
-                    <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
-                      View
-                    </div>
-                  </Link>
+                {portfolioData ? (
+                  <>
+                    <Link
+                      href={`/portfolio/view?id=${session.user.id}`}
+                      className="w-full rounded-lg"
+                    >
+                      <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
+                        View
+                      </div>
+                    </Link>
+                    <Link
+                      href={`/main/edit?id=${session.user.id}`}
+                      className="w-full rounded-lg"
+                    >
+                      <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
+                        Edit
+                      </div>
+                    </Link>
+                  </>
                 ) : (
                   <Link
                     href="/main/createportfolio"
@@ -190,16 +188,9 @@ const Nav = () => {
               </>
             ) : (
               <>
-                {providers &&
-                  Object.values(providers).map((provider) => (
-                    <button
-                      type="button"
-                      key={provider.name}
-                      onClick={() => signIn(provider.id)}
-                    >
-                      Sign In
-                    </button>
-                  ))}
+                <button type="button" onClick={() => props.setDialog(true)}>
+                  Sign In
+                </button>
               </>
             )}
           </div>
@@ -209,4 +200,13 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+const mapStateToProps = (state) => ({
+  portfolioData: state.portfolioData,
+  loading: state.loading,
+});
+const mapDispatchToProps = (dispatch) => ({
+  getPortfolio: (value) => dispatch(getPortfolio(value)),
+  setDialog: (value) => dispatch(setDialog(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

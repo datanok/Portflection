@@ -6,7 +6,7 @@ import { Suspense } from "react";
 // };
 const Mainlayout = ({ children }) => {
   return (
-    <main className="portfolio h-full overflow-auto p-4 md:p-8 md:px-8 lg:px-40 leading-relaxed text-slate-400 antialiased selection:bg-teal-300 selection:text-teal-900 ">
+    <main className="portfolio overflow-auto p-4 md:m-0 md:p-0 md:px-8 lg:px-40 leading-relaxed text-slate-400 antialiased selection:bg-gray-300 selection:text-black ">
       <Suspense fallback={<p>Loading feed...</p>}>{children}</Suspense>
     </main>
   );

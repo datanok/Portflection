@@ -40,13 +40,13 @@ function ExperienceForm(props) {
     setExperiences(updatedExp);
   };
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center animate-slideInFromRight ">
       {/* Experience Preview */}
-      {experiences && Array.isArray(experiences)&& experiences.length > 0 && <div className="flex flex-row gap-2 overflow-x-scroll whitespace-normal">
+      {experiences && Array.isArray(experiences)&& experiences.length > 0 && <div className="flex flex-row gap-2 overflow-x-scroll whitespace-normal snap-mandatory snap-x no-scrollbar">
         {experiences.map((experience, index) => (
           <div
             key={index}
-            className="flex min-w-full  md:min-w-[250px]  md:max-w-[250px] flex-col gap-1  text-gray-600 bg-white p-4 rounded-lg text-sm"
+            className="flex min-w-full  md:min-w-[250px]  md:max-w-[250px] flex-col gap-1  text-gray-600 bg-white p-4 rounded-lg text-sm snap-end shrink-0"
           >
             <span className=" self-end">
               <AiOutlineClose

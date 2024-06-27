@@ -6,8 +6,8 @@ import {
 function AboutForm(props) {
   const { userData, setUserData } = props
   return (
-    <div>
-      <div class="mb-6">
+    <div className="animate-slideInFromRight">
+      <div class="mb-6 " >
         <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 ">
           Name
         </label>

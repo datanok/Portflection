@@ -3,7 +3,6 @@ import Portfolio from "@models/portfoliodata";
 
 export const POST = async (req) => {
   const { portfolioData } = await req.json();
-
   try {
     await connectToDB();
     const { userName, about, role,skills, experiences, projects, userID, email,githubLink,instagramLink,linkedinLink} = portfolioData;
@@ -14,8 +13,6 @@ export const POST = async (req) => {
     const existingPortfolio = await Portfolio.findOne({ userID });
 
     if (existingPortfolio) {
-      // If portfolio exists, update its fields
-      // existingPortfolio.porfileImg = profileImg,
       existingPortfolio.userName = userName;
       existingPortfolio.about = about;
       existingPortfolio.role = role;
