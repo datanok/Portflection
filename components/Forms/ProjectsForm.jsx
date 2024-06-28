@@ -5,6 +5,11 @@ import { Tooltip } from "flowbite-react";
 import { GrCircleInformation } from "react-icons/gr";
 import {setProjectData,setProjects} from '../redux/Action'
 import { connect } from "react-redux";
+import { CldUploadButton } from 'next-cloudinary';
+
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
 function ProjectsForm(props) {
   const {
     setProjectData,
@@ -47,6 +52,9 @@ function ProjectsForm(props) {
   const handleTags = (project) => {
     const tags = project.projectTags.split(",");
     return tags;
+  };
+  const handleUpload = (result) => {
+    setProjectData({ ...projectData, projectImg: result.info.secure_url });
   };
   return (
     <div className="flex flex-col justify-center animate-slideInFromRight">
@@ -139,13 +147,10 @@ function ProjectsForm(props) {
         ></input>
       </div>
       <div className="mb-6">
-        <label
-          class=" mb-2 text-sm font-medium text-gray-900 flex gap-2 "
-          for="file_input"
-        >
+        <label className="mb-2 text-sm font-medium text-gray-900 flex gap-2" htmlFor="file_input">
           Project Image URL
           <Tooltip
-            content="Image Upload will be available once i figure out aws "
+            content="Upload image using the button below"
             style="light"
             trigger="hover"
           >
@@ -157,12 +162,19 @@ function ProjectsForm(props) {
           type="text"
           value={projectData.projectImg}
           id="name"
-          onChange={(e) =>
-            setProjectData({ ...projectData, projectImg: e.target.value })
-          }
-          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-          placeholder="Upload Image url"
-        ></input>
+          onChange={(e) => setProjectData({ ...projectData, projectImg: e.target.value })}
+          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          placeholder="Upload Image URL or use the button below"
+        />
+        <CldUploadButton
+  cloudName={cloudName}
+  uploadPreset={uploadPreset}
+  onUpload={handleUpload}
+  className="mt-2"
+>
+  Upload Image
+</CldUploadButton>
+
       </div>
       <button
         onClick={() => addProjects()}

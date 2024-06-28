@@ -55,7 +55,6 @@ export const getPortfolio = createAsyncThunk(
     types.CREATE_PORTFOLIO, // Action type
     async ({ portfolioData, session }, { dispatch }) => { // Payload creator function
       const apiUrl = "/api/portfolio/new"; // API endpoint
-      
       try {
         const response = await fetch(apiUrl, {
           method: "POST",

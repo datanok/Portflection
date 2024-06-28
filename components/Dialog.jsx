@@ -7,7 +7,6 @@ function Dialog(props) {
     const handleClose = () => {
         props.setDialog(false)
     }
-    console.log(props,"props")
   return (
     <div
       id="authentication-modal"

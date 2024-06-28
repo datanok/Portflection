@@ -67,8 +67,7 @@ function PortfolioForm(props) {
       };
   
       try {
-        console.log("Submitting portfolio data:", portfolioData);
-        await createPortfolio(portfolioData, session);
+        await props.createPortfolio({portfolioData, session});
         router.push(`/portfolio/view?id=${session?.user.id}`);
       } catch (error) {
         console.error("Error creating portfolio:", error);

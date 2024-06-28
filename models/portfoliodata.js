@@ -6,6 +6,7 @@ const portfolioSchema = new Schema({
     type: String,
     required: [true, "Username is required"],
   },
+  profileImg: { type: String },
   about: {
     type: String,
   },

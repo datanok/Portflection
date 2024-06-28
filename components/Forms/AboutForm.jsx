@@ -1,13 +1,18 @@
 import { connect } from "react-redux";
-import {
-  setUserData,
+import { setUserData } from "../redux/Action";
+import { CldUploadButton } from "next-cloudinary";
 
-} from "../redux/Action";
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
 function AboutForm(props) {
-  const { userData, setUserData } = props
+  const { userData, setUserData } = props;
+  const handleUpload = (result) => {
+    setUserData({ ...userData, profileImg: result.info.secure_url });
+  };
   return (
     <div className="animate-slideInFromRight">
-      <div class="mb-6 " >
+      <div class="mb-6 ">
         <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 ">
           Name
         </label>
@@ -72,18 +77,32 @@ function AboutForm(props) {
           placeholder="Enter skills seperated by a comma ' , '"
         ></input>
       </div>
+      <div className="mb-6">
+        <label
+          className="mb-2 text-sm font-medium text-gray-900 flex gap-2"
+          htmlFor="file_input"
+        >
+          Project Image URL
+        </label>
+
+        <CldUploadButton
+          cloudName={cloudName}
+          uploadPreset={uploadPreset}
+          onUpload={handleUpload}
+          className="mt-2"
+        >
+          Upload Image
+        </CldUploadButton>
+      </div>
     </div>
   );
 }
 
 const mapStateToProps = (state) => ({
   userData: state.userData,
-
 });
 const mapDispatchToProps = (dispatch) => ({
   setUserData: (value) => dispatch(setUserData(value)),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AboutForm);
-

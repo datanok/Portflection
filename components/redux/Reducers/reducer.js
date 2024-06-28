@@ -35,7 +35,6 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
   if (action.type.includes("pending")) {
-    console.log("pending")
     state.loading = true;
   } else {
     switch (action.type) {
@@ -62,7 +61,6 @@ export const reducer = (state = initialState, action) => {
           loading: false,
         };
       case `${types.CREATE_PORTFOLIO}/pending`:
-        console.log("pending")
         return {
           ...state,
           loading: true,

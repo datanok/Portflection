@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { Suspense } from "react";
 import PortfolioLoading from "@components/skeleton/PortfolioLoading";
 import {
   AiTwotoneCalendar,
@@ -14,7 +13,6 @@ import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import jsonData from "../json-data.json";
 import { getPortfolio } from "@components/redux/Action";
 import projectPlaceholder from "@public/assets/images/projectPlaceholder.svg"
 
@@ -33,6 +31,7 @@ const Page = (props) => {
     else if(session && session.user && (session.user.id !==userID)){
       getPortfolio(userID)
     }
+    getPortfolio(userID)
   }, [userID]);
 
   const [activeItem, setActiveItem] = useState("about");
@@ -65,7 +64,7 @@ const Page = (props) => {
                 className=" w-full flex flex-col items-start md:items-center gap-2"
               >
                 <Image
-                  src={jsonData.profileImage}
+                  src={props.portfolioData?.profileImg}
                   width={100}
                   height={100}
                   className="rounded-full"
@@ -201,7 +200,7 @@ const Page = (props) => {
               {/* Mobile view */}
               <section className="w-full flex md:hidden flex-col mb-12 items-center gap-2">
                 <Image
-                  src={jsonData.profileImage}
+                  src={props.portfolioData?.profileImg}
                   width={100}
                   height={100}
                   className="rounded-full"
@@ -250,7 +249,7 @@ const Page = (props) => {
                               <AiTwotoneCalendar className="group-hover:text-black" />
                             </span>
 
-                            <h3 className="flex  gap-2 mb-1 text-md font-semibold text-gray-400 group-hover:text-white ">
+                            <h3 className="flex  gap-2 mb-1 text-md font-semibold whitespace-nowrap text-gray-400 group-hover:text-white ">
                               <time className="">{experience.tenure}</time>
                               <span>&#8226;</span>
                               <span>{experience.company}</span>
