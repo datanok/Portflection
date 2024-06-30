@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Expletus_Sans } from "next/font/google";
@@ -19,16 +19,14 @@ const ExpletusSans = Expletus_Sans({
 const Nav = (props) => {
   const { portfolioData, loading } = props;
   const [toggle, setToggle] = useState(false);
-  const { data: session,status,} = useSession();
+  const { data: session, status } = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
-  
+
   useEffect(() => {
     if (session && !props.portfolioData) {
       props.getPortfolio(session.user.id);
-      
     }
   }, [session]);
-
 
   return (
     <nav className="flex flex-row justify-between p-3 w-full mb-6">
@@ -97,7 +95,7 @@ const Nav = (props) => {
                     <button
                       onClick={() => {
                         setShowDropdown(!showDropdown);
-                        signOut();
+                        signOut({ callbackUrl: "/", redirect: true });
                       }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "
                     >
@@ -109,8 +107,8 @@ const Nav = (props) => {
             </>
           ) : (
             <>
-             <button type="button" onClick={() => props.setDialog(true)}>
-                  Sign In
+              <button type="button" onClick={() => props.setDialog(true)}>
+                Sign In
               </button>
             </>
           )}
