@@ -9,9 +9,9 @@ const inter = Inter({
     adjustFontFallback: false,
 });
 export const metadata = {
-  title: "Portfolio Forge",
+  title: "Portflection: Crafting Stunning Portfolios",
   description:
-    "Empower your online presence with Flowbite, the platform for creating stunning portfolios. Showcase your work effortlessly, enhance your personal brand, and open doors to endless opportunities. Craft, share, and stand out in the digital landscape.",
+    "Showcase your work effortlessly, enhance your personal brand, and open doors to endless opportunities. Craft, share, and stand out in the digital landscape.",
   icons: {
     icon: ["/favicon.ico?v=4"],
     apple: ["/apple-touch-icon.png?v=4"],

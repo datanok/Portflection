@@ -1,7 +1,15 @@
 import { connectToDB } from "@utils/database";
 import Portfolio from "@models/portfoliodata";
+import { getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export const POST = async (req) => {
+  const session = await getSession()
+  console.log(session,"session")
+  if (!session) {
+    redirect(`/main`)
+    return new Response(null, { status: 401 }) // User is not authenticated
+  }
   const portfolioData  = await req.json();
   try {
     await connectToDB();

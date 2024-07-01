@@ -4,9 +4,11 @@ export const metadata = {
 };
 
 const page = () => {
+ 
   return (
     <div className="flex justify-center mx-4">
       <PortfolioForm />
+      
     </div>
   );
 };

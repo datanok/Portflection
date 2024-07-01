@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Expletus_Sans } from "next/font/google";
@@ -31,7 +30,7 @@ const Nav = (props) => {
   return (
     <nav className="flex flex-row justify-between p-3 w-full mb-6">
       <Link href="/" className="flex gap-2 flex-center">
-        <Image src={logo} className="object-contain" width={30} height={30} />
+        <Image src={logo} className="object-contain" width={30} height={30} alt="Portflection"/>
         <p
           className={
             ExpletusSans.className + " text-lg hidden md:flex font-extrabold"

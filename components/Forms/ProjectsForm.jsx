@@ -1,6 +1,4 @@
 import { AiOutlineClose } from "react-icons/ai";
-import projectimg from "@public/assets/images/project1.png";
-import Image from "next/image";
 import { Tooltip } from "flowbite-react";
 import { GrCircleInformation } from "react-icons/gr";
 import {setProjectData,setProjects} from '../redux/Action'
@@ -124,7 +122,7 @@ function ProjectsForm(props) {
           onChange={(e) =>
             setProjectData({ ...projectData, projectDesc: e.target.value })
           }
-          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-400 focus:border-red-400"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Small Description About Project..."
         ></textarea>
       </div>

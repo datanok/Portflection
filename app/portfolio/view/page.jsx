@@ -14,7 +14,6 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { getPortfolio } from "@components/redux/Action";
-import projectPlaceholder from "@public/assets/images/projectPlaceholder.svg"
 
 const Page = (props) => {
   const {getPortfolio,loading} = props;
@@ -33,6 +32,10 @@ const Page = (props) => {
     }
     getPortfolio(userID)
   }, [userID]);
+
+  useEffect(() => {
+    document.title = props.portfolioData?.userName
+  },[props.portfolioData?.userName])
 
   const [activeItem, setActiveItem] = useState("about");
 

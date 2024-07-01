@@ -31,6 +31,7 @@ const initialState = {
   loading: false,
   providers: null,
   showDialog: false,
+  showProfileDialog:false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -46,6 +47,9 @@ export const reducer = (state = initialState, action) => {
         return { ...state, loading: false, providers: action.payload };
       case "SET_DIALOG":
         return { ...state, showDialog: action.payload };
+      case "SET_PROFILE_DIALOG":
+        return { ...state, showProfileDialog: action.payload };
+      
       case types.SET_PROJECTS:
         return { ...state, projects: action.payload };
       case types.SET_PROJECT_DATA:

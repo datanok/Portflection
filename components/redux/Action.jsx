@@ -35,6 +35,10 @@ export const setDialog = (payload) => ({
   type: "SET_DIALOG",
   payload: payload 
 })
+export const setProfileDialog = (payload) => ({
+  type: "SET_PROFILE_DIALOG",
+  payload: payload 
+})
 
 export const getPortfolio = createAsyncThunk(
     types.GET_PORTFOLIO,

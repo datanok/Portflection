@@ -14,6 +14,7 @@ import { getPortfolio, setDialog, setProviders } from "@components/redux/Action"
 import { connect } from "react-redux";
 import Dialog from "@components/Dialog";
 import Loader from "@components/Loader/Loader";
+import ProfileDialog from "@components/ProfileDialog";
 
 const ExpletusSans = Expletus_Sans({
   subsets: ["latin"],
@@ -97,16 +98,16 @@ const Home = (props) => {
           </h4>
         </div>
         <section className="p-8 bg-slate-100">
-          <h1 className="text-center my-4 font-black">
+          <h2 className="text-center my-4 font-black">
             Why Choose Our Portfolio Builder
-          </h1>
+          </h2>
           <div className="grid w-full md:w-3/5 mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {featureList.map((item, index) => (
               <div key={index} className="flex flex-col bg-slate-200 p-2 outline rounded-lg">
                 <span className="bg-gray-300 w-fit p-2 rounded-full outline">
                   {item.icon}
                 </span>
-                <h1 className="mt-2 text-slate-800 font-semibold">{item.title}</h1>
+                <h2 className="mt-2 text-slate-800 font-semibold">{item.title}</h2>
                 <p className="text-sm text-slate-700">{item.description}</p>
               </div>
             ))}
@@ -146,6 +147,7 @@ const Home = (props) => {
         </footer>
       </div>
       {props.showDialog && <Dialog />}
+      {props.showProfileDialog && <ProfileDialog />}
       {(status === "loading" ||props.loading===true )&& <Loader />}
     </>
   );
@@ -155,6 +157,7 @@ const mapStateToProps = (state) => ({
   loading: state.loading,
   providers: state.providers,
   showDialog: state.showDialog,
+  showProfileDialog: state.showProfileDialog,
 });
 
 const mapDispatchToProps = {

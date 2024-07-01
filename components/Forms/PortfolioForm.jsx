@@ -221,6 +221,7 @@ const mapStateToProps = (state) => ({
   portfolioData: state.portfolioData,
   loading: state.loading,
   
+  
 });
 
 const mapDispatchToProps = {
