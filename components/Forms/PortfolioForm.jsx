@@ -51,6 +51,7 @@ function PortfolioForm(props) {
 
   const submitForm = async () => {
     if (isFormValid()) {
+      console.log(userData,"userData")
       const portfolioData = {
         profileImg: userData.profileImg,
         userName: userData.userName,
@@ -87,13 +88,13 @@ function PortfolioForm(props) {
     else return <ContactForm userData={userData} setUserData={setUserData} />;
   };
   useEffect(() => {
-    if (portfolioData) {
+    if (portfolioData && portfolioData.hasOwnProperty("success") &&( portfolioData.success === false)) {
       setUserData({
         ...userData,
         userName: portfolioData?.userName,
         role: portfolioData?.role,
         about: portfolioData?.about,
-        skills:portfolioData?.skills.replace(/[\r\n]+/gm, " ")
+        skills:portfolioData?.skills?.replace(/[\r\n]+/gm, " ")
       });
       if(experiences.length <1){
         setExperiences([...experiences, ...(portfolioData?.experiences || [])]);

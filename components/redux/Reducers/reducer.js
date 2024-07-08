@@ -28,17 +28,24 @@ const initialState = {
   },
   projects: [],
   portfolioData: null,
+  userProfileData: null,
   loading: false,
   providers: null,
   showDialog: false,
-  showProfileDialog:false,
+  showProfileDialog: false,
 };
 
 export const reducer = (state = initialState, action) => {
   if (action.type.includes("pending")) {
-    state.loading = true;
-  } else {
+    return {
+      ...state,
+      loading: true,
+    };
+  } 
+   else {
     switch (action.type) {
+      case "SET_USER_PROFILE_DATA":
+        return { ...state, userProfileData: action.payload };
       case "SET_USER_DATA":
         return { ...state, userData: action.payload };
       case "SET_EXPERIENCE":
@@ -49,7 +56,7 @@ export const reducer = (state = initialState, action) => {
         return { ...state, showDialog: action.payload };
       case "SET_PROFILE_DIALOG":
         return { ...state, showProfileDialog: action.payload };
-      
+
       case types.SET_PROJECTS:
         return { ...state, projects: action.payload };
       case types.SET_PROJECT_DATA:
@@ -62,6 +69,21 @@ export const reducer = (state = initialState, action) => {
         return {
           ...state,
           portfolioData: action.payload,
+          loading: false,
+        };
+        case `${types.GET_PORTFOLIO}/rejected`:
+          console.log(action.payload);
+        return {
+          ...state,
+          portfolioData: {success:false},
+          loading: false,
+        };
+
+      case `${types.GET_USER}/fulfilled`:
+        console.log(action.payload);
+        return {
+          ...state,
+          userProfileData: action.payload,
           loading: false,
         };
       case `${types.CREATE_PORTFOLIO}/pending`:

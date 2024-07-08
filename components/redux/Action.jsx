@@ -39,11 +39,43 @@ export const setProfileDialog = (payload) => ({
   type: "SET_PROFILE_DIALOG",
   payload: payload 
 })
+export const setUserDProfileData = (payload) => ({
+  type: "SET_USER_PROFILE_DATA",
+  payload: payload 
+})  
 
 export const getPortfolio = createAsyncThunk(
     types.GET_PORTFOLIO,
     async (userId, { dispatch }) => {
       const apiUrl = `/api/portfolio/view/${userId}`;
+      try {
+        
+        const response = await fetch(apiUrl);
+        const data = await response.json()
+        return data;
+      } catch (err) {
+        throw err;
+      }
+    }
+  );
+  export const getUser = createAsyncThunk(
+    types.GET_USER,
+    async (id, { dispatch }) => {
+      const apiUrl = `/api/user`
+      try {
+        
+        const response = await fetch(apiUrl);
+        const data = await response.json()
+        return data;
+      } catch (err) {
+        throw err;
+      }
+    }
+  );
+  export const deleteUser = createAsyncThunk(
+    types.DELETE_PORTFOLIO,
+    async (id, { dispatch }) => {
+      const apiUrl = `/api/portfolio/delete`; // API endpoint
       try {
         
         const response = await fetch(apiUrl);

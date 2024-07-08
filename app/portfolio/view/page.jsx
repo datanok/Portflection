@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { getPortfolio } from "@components/redux/Action";
+import NotFoundPage from "@app/portfolio/view/NotFoundPage";
 
 const Page = (props) => {
   const {getPortfolio,loading} = props;
@@ -24,12 +25,7 @@ const Page = (props) => {
   const userID = searchParams.get("id");
 
   useEffect(() => {
-    if(!session && !props.portfolioData){
-      getPortfolio(userID)
-    }
-    else if(session && session.user && (session.user.id !==userID)){
-      getPortfolio(userID)
-    }
+  
     getPortfolio(userID)
   }, [userID]);
 
@@ -58,7 +54,7 @@ const Page = (props) => {
       <div className="flex flex-col gap-4  text-[#9a9a9a] md:-my-[2em] z-30">
         {loading ? (
           <PortfolioLoading />
-        ) : (
+        ) : props.portfolioData &&  props.portfolioData.hasOwnProperty("success") &&  !props.portfolioData.success ? <NotFoundPage/> : (
           <div className="w-full  flex justify-center max-w-screen-xl max-h-screen py-12 md:px-12 md:py-0 lg:px-24 lg:py-0">
             {/* Navigation */}
             <nav className="w-full md:w-[40%] flex-col hidden md:flex md:sticky md:max-h-screen md:my-0 md:py-8 md:justify-between md:flex-col ">

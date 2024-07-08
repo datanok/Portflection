@@ -2,6 +2,9 @@
 
 ### 
 GET http://localhost:3000/api/portfolio/view/64de0e8003a8c67bfa6c0232
+
+###
+GET http://localhost:3000/api/portfolio/delete
 ###
 POST  http://localhost:3000/api/portfolio/new
 

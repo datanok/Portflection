@@ -30,7 +30,13 @@ const Nav = (props) => {
   return (
     <nav className="flex flex-row justify-between p-3 w-full mb-6">
       <Link href="/" className="flex gap-2 flex-center">
-        <Image src={logo} className="object-contain" width={30} height={30} alt="Portflection"/>
+        <Image
+          src={logo}
+          className="object-contain"
+          width={30}
+          height={30}
+          alt="Portflection"
+        />
         <p
           className={
             ExpletusSans.className + " text-lg hidden md:flex font-extrabold"
@@ -49,8 +55,18 @@ const Nav = (props) => {
           ) : (
             status === "authenticated" && (
               <>
-                <Link href={`/portfolio/view?id=${session.user.id}`}>View</Link>
-                <Link href={`/main/edit?id=${session.user.id}`}>Edit</Link>
+                {props.portfolioData &&
+                props.portfolioData.hasOwnProperty("success") &&
+                !(props.portfolioData.success === false) ? (
+                  <>
+                    <Link href={`/portfolio/view?id=${session.user.id}`}>
+                      View
+                    </Link>
+                    <Link href={`/main/edit?id=${session.user.id}`}>Edit</Link>
+                  </>
+                ) : (
+                  <Link href="/main/createportfolio">Create</Link>
+                )}
               </>
             )
           )}
@@ -83,7 +99,7 @@ const Nav = (props) => {
                   >
                     <li>
                       <Link
-                        href="/profile"
+                        href="/main/profile"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Profile
@@ -116,7 +132,7 @@ const Nav = (props) => {
 
       {/* Mobile Navigation */}
 
-      <div className="flex md:hidden relative">
+      <div className="flex md:hidden relative z-10">
         <button onClick={() => setToggle(!toggle)}>
           <AiOutlineMenu size={24} />
         </button>
@@ -139,12 +155,23 @@ const Nav = (props) => {
                     {session?.user.email}
                   </span>
                 </div>
-
-                {portfolioData ? (
+                <Link
+                  href={`/`}
+                  className="w-full rounded-lg"
+                  onClick={() => setToggle(false)}
+                >
+                  <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
+                    Home
+                  </div>
+                </Link>
+                {props.portfolioData &&
+                props.portfolioData.hasOwnProperty("success") &&
+                !(props.portfolioData.success === false) ? (
                   <>
                     <Link
                       href={`/portfolio/view?id=${session.user.id}`}
                       className="w-full rounded-lg"
+                      onClick={() => setToggle(false)}
                     >
                       <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
                         View
@@ -153,6 +180,7 @@ const Nav = (props) => {
                     <Link
                       href={`/main/edit?id=${session.user.id}`}
                       className="w-full rounded-lg"
+                      onClick={() => setToggle(false)}
                     >
                       <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
                         Edit
@@ -173,7 +201,7 @@ const Nav = (props) => {
                   <button
                     onClick={() => {
                       setShowDropdown(!showDropdown);
-                      signOut();
+                      signOut({ callbackUrl: "/", redirect: true });
                     }}
                     className="w-full text-left text-sm text-gray-700 hover:bg-gray-100 "
                   >

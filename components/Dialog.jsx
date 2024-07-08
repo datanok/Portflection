@@ -89,7 +89,6 @@ function Dialog(props) {
 }
 
 const mapStateToProps = (state) => ({
-  portfolioData: state.portfolioData,
   loading: state.loading,
   providers: state.providers,
 });
