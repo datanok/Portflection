@@ -56,8 +56,7 @@ const Nav = (props) => {
             status === "authenticated" && (
               <>
                 {props.portfolioData &&
-                props.portfolioData.hasOwnProperty("success") &&
-                !(props.portfolioData.success === false) ? (
+           Object.keys(props.portfolioData).length > 0 ? (
                   <>
                     <Link href={`/portfolio/view?id=${session.user.id}`}>
                       View

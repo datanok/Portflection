@@ -43,7 +43,7 @@ body{
   }
   
   .main:before {
-    background-color: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa 100%);
+    background-color: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa00 100%);
     position: absolute;
     content: "";
     z-index: 2;
@@ -60,7 +60,7 @@ body{
     width: 100%;
     height: 100%;
     top: 0;
-    opacity: 0.4;
+    opacity: 0.6;
     filter: invert(1);
   }
 
@@ -75,6 +75,9 @@ body{
     background-color: #161616;
 
   
+  }
+  .app {
+    @apply relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
   }
 
   @keyframes fadeIn {

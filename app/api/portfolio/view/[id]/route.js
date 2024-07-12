@@ -7,10 +7,6 @@ export const GET = async (request, { params }) => {
   try {
     await connectToDB();
     const portfolio = await Portfolio.findOne({ userID: params.id });
-    console.log(portfolio,"asdasd");
-    if (!portfolio) {
-      redirect(`/main`);
-    }
     
     return new Response(JSON.stringify(portfolio), { status: 200 });
   } catch (error) {

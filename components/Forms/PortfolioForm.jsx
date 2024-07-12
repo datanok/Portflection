@@ -88,7 +88,7 @@ function PortfolioForm(props) {
     else return <ContactForm userData={userData} setUserData={setUserData} />;
   };
   useEffect(() => {
-    if (portfolioData && portfolioData.hasOwnProperty("success") &&( portfolioData.success === false)) {
+    if (portfolioData && Object.keys(portfolioData).length > 0 ) {
       setUserData({
         ...userData,
         userName: portfolioData?.userName,

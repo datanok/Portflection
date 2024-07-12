@@ -7,6 +7,11 @@ import Image from "next/image";
 import DeleteDialog from "@components/DeleteDialog";
 
 function Page(props) {
+  useEffect(() => {
+    
+      props.getUser();
+    
+  }, []);
 
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const handleClose = () => {
@@ -15,7 +20,7 @@ function Page(props) {
   return (
     <>
     <Suspense fallback={<ProfileLoading/>}>
-    {props.loading? <ProfileLoading/> : <div class="w-full mx-auto max-w-sm bg-gray-200 p-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    {props.loading? <ProfileLoading/> : <div class="w-full mx-auto  bg-gray-200 p-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
        
        <div class="flex flex-col items-center pb-10">
         <Image src={props.userProfileData?.image} alt="Profile Picture" width={100} height={100} className="rounded-full shadow-lg"/>
