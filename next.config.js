@@ -2,14 +2,6 @@
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["mongoose"],
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js",
-        },
-      },
-    },
   },
   images: {
     remotePatterns: [
@@ -35,6 +27,10 @@ const nextConfig = {
       ...config.experiments,
       topLevelAwait: true,
     };
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
     return config;
   },
   async redirects() {

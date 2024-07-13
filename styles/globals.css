@@ -4,16 +4,16 @@
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar for IE, Edge and Firefox */
+  /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
-body{
+body {
   color: black;
 }
 
@@ -29,112 +29,137 @@ body{
   @apply transform translate-y-1 shadow;
 }
 
-
-
 .main {
-    width: 100vw;
-    min-height: 100vh;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    padding: 120px 24px 160px 24px;
-    pointer-events: none;
+  width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  padding: 120px 24px 160px 24px;
+  pointer-events: none;
+}
 
-  }
-  
-  .main:before {
-    background-color: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa00 100%);
-    position: absolute;
-    content: "";
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    top: 0;
-  }
-  
-  .main:after {
-    content: "";
-    background-image: url("/assets/images/grid.svg");
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    opacity: 0.6;
-    filter: invert(1);
-  }
+.main:before {
+  background-color: radial-gradient(
+    circle,
+    rgba(2, 0, 36, 0) 0,
+    #fafafa00 100%
+  );
+  position: absolute;
+  content: "";
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
 
-  .portfolio {
-    content: "";
-    background-image: url("/assets/images/bg.svg");
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background-color: #161616;
+.main:after {
+  content: "";
+  background-image: url("/assets/images/grid.svg");
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0.6;
+  filter: invert(1);
+}
 
-  
-  }
-  .app {
-    @apply relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
-  }
+.portfolio {
+  content: "";
+  background-image: url("/assets/images/bg.svg");
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: #161616;
+}
+.app {
+  @apply relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
+}
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-   
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  .animate-fadeIn {
-    animation: fadeIn 1s ease-in-out forwards;
-  }
-  .portbg{
-    background-image: linear-gradient(103deg, #1E1E24 0%, #0e0e11 100%);}
-  .gradient {
-    height: fit-content;
-    z-index: 3;
-    width: 100%;
-    max-width: 640px;
-    background-image: radial-gradient(
-        at 27% 37%,
-        hsla(215, 98%, 61%, 1) 0px,
-        transparent 0%
-      ),
-      radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
-      radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
-      radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
-      radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
-      radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
-      radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 100%;
-    filter: blur(100px) saturate(150%);
-    top: 80px;
-    opacity: 0.15;
-  }
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+.portbg {
+  background-image: linear-gradient(103deg, #1e1e24 0%, #0e0e11 100%);
+}
+.gradient {
+  height: fit-content;
+  z-index: 3;
+  width: 100%;
+  max-width: 640px;
+  background-image: radial-gradient(
+      at 27% 37%,
+      hsla(215, 98%, 61%, 1) 0px,
+      transparent 0%
+    ),
+    radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  filter: blur(100px) saturate(150%);
+  top: 80px;
+  opacity: 0.15;
+}
 
-  /* Navbar */
-  .dropdown {
-    @apply absolute right-0 top-full mt-3 min-w-[150px] p-2 rounded-lg bg-white  flex flex-col gap-2 justify-center items-center;
+/* Navbar */
+.dropdown {
+  @apply absolute right-0 top-full mt-3 min-w-[150px] p-2 rounded-lg bg-white  flex flex-col gap-2 justify-center items-center;
+}
+
+.dropdown_link {
+  @apply text-lg text-gray-700 hover:text-gray-500 font-medium;
+}
+
+@media screen and (max-width: 640px) {
+  .main {
+    padding: 0;
   }
-  
-  .dropdown_link {
-    @apply text-lg text-gray-700 hover:text-gray-500 font-medium;
+}
+
+/* CSS for the SVG loading animation */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
   }
-  
-  
-  @media screen and (max-width: 640px) {
-    .main {
-      padding: 0;
-    }
+  100% {
+    transform: translateY(100%);
   }
-  
+}
+
+#loading-svg {
+  position: relative;
+  overflow: hidden;
+}
+
+#loading-svg .blue-fill {
+  animation: slideDown 1s linear infinite;
+  transform-origin: top center;
+  fill: #0000ff; /* Blue color */
+}
+
+/* Adjust the height of the blue fill to cover the SVG area */
+#loading-svg .blue-fill {
+  height: 100%;
+  width: 100%;
+  transform: translateY(-100%);
+}

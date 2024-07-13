@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Expletus_Sans } from "next/font/google";
 import { AiOutlineMenu } from "react-icons/ai";
-import logo from "@public/assets/images/rlogo.svg";
+import logo from "../public/assets/images/rlogo.svg";
 import { connect } from "react-redux";
 import { getPortfolio, setDialog } from "../components/redux/Action";
 
@@ -30,6 +30,7 @@ const Nav = (props) => {
   return (
     <nav className="flex flex-row justify-between p-3 w-full mb-6">
       <Link href="/" className="flex gap-2 flex-center">
+        {console.log(logo, "logo")}
         <Image
           src={logo}
           className="object-contain"
@@ -56,7 +57,7 @@ const Nav = (props) => {
             status === "authenticated" && (
               <>
                 {props.portfolioData &&
-           Object.keys(props.portfolioData).length > 0 ? (
+                Object.keys(props.portfolioData).length > 0 ? (
                   <>
                     <Link href={`/portfolio/view?id=${session.user.id}`}>
                       View

@@ -1,74 +1,58 @@
-:root {
-  --w: 96px;
-  --h: 112px;
-  --xspace: calc(var(--w) / 2);
-  --yspace: calc(var(--h) / 4 - 1px);
-  --speed: 1.5s;
+.spinner {
+  width: 70.4px;
+  height: 70.4px;
+  --clr: rgb(245, 101, 101);
+  --clr-alpha: rgb(245, 101, 101, 0.1);
+  animation: spinner 1.6s infinite ease;
+  transform-style: preserve-3d;
 }
 
-.tetrominos {
-  position: relative;
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-  width: calc(var(--w) * 3); /* Adjust width to fit content */
-  height: calc(var(--h) * 3); /* Adjust height to fit content */
-}
-
-.tetromino {
-  width: var(--w);
-  height: var(--h);
+.spinner > div {
+  background-color: var(--clr-alpha);
+  height: 100%;
   position: absolute;
-  transition: all ease 0.3s;
-  background: url('data:image/svg+xml;utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 684"%3E%3Cpath fill="%23010101" d="M305.7 0L0 170.9v342.3L305.7 684 612 513.2V170.9L305.7 0z"/%3E%3Cpath fill="%23fff" d="M305.7 80.1l-233.6 131 233.6 131 234.2-131-234.2-131"/%3E%3C/svg%3E') no-repeat top center;
+  width: 100%;
+  border: 3.5px solid var(--clr);
 }
 
-.box1 {
-  animation: tetromino1 var(--speed) ease-out infinite;
-}
-.box2 {
-  animation: tetromino2 var(--speed) ease-out infinite;
-}
-.box3 {
-  animation: tetromino3 var(--speed) ease-out infinite;
-  z-index: 2;
-}
-.box4 {
-  animation: tetromino4 var(--speed) ease-out infinite;
+.spinner div:nth-of-type(1) {
+  transform: translateZ(-35.2px) rotateY(180deg);
 }
 
-@keyframes tetromino1 {
-  0%, 40% { 
-    transform: translate(0, 0);
-  } 50% {
-    transform: translate(var(--xspace), calc(-1 * var(--yspace)));
-  } 60%, 100% {
-    transform: translate(calc(2 * var(--xspace)), 0);
+.spinner div:nth-of-type(2) {
+  transform: rotateY(-270deg) translateX(50%);
+  transform-origin: top right;
+}
+
+.spinner div:nth-of-type(3) {
+  transform: rotateY(270deg) translateX(-50%);
+  transform-origin: center left;
+}
+
+.spinner div:nth-of-type(4) {
+  transform: rotateX(90deg) translateY(-50%);
+  transform-origin: top center;
+}
+
+.spinner div:nth-of-type(5) {
+  transform: rotateX(-90deg) translateY(50%);
+  transform-origin: bottom center;
+}
+
+.spinner div:nth-of-type(6) {
+  transform: translateZ(35.2px);
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
   }
-}
 
-@keyframes tetromino2 {
-  0%, 20% { 
-    transform: translate(calc(2 * var(--xspace)), 0px);
-  } 40%, 100% { 
-    transform: translate(calc(3 * var(--xspace)), var(--yspace));
+  50% {
+    transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
   }
-}
 
-@keyframes tetromino3 {
-  0% { 
-    transform: translate(calc(3 * var(--xspace)), var(--yspace));
-  } 20%, 60% { 
-    transform: translate(calc(2 * var(--xspace)), calc(2 * var(--yspace)));
-  } 90%, 100% { 
-    transform: translate(var(--xspace), var(--yspace));
-  }
-}
-
-@keyframes tetromino4 {
-  0%, 60% {
-    transform: translate(var(--xspace), var(--yspace));
-  } 90%, 100% { 
-    transform: translate(0, 0);
+  100% {
+    transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
   }
 }

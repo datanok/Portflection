@@ -1,20 +1,15 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { Tooltip } from "flowbite-react";
 import { GrCircleInformation } from "react-icons/gr";
-import {setProjectData,setProjects} from '../redux/Action'
+import { setProjectData, setProjects } from "../redux/Action";
 import { connect } from "react-redux";
-import { CldUploadButton } from 'next-cloudinary';
+import { CldUploadButton } from "next-cloudinary";
 
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 function ProjectsForm(props) {
-  const {
-    setProjectData,
-    projectData,
-    projects,
-    setProjects,
-  } = props;
+  const { setProjectData, projectData, projects, setProjects } = props;
 
   const addProjects = () => {
     const newProject = {
@@ -40,7 +35,6 @@ function ProjectsForm(props) {
     }
   };
 
-  
   const removeProject = (projectToremove) => {
     const updatedProjects = projects.filter(
       (project) => project !== projectToremove
@@ -57,41 +51,43 @@ function ProjectsForm(props) {
   return (
     <div className="flex flex-col justify-center animate-slideInFromRight">
       {/* Project preview */}
-      {projects && Array.isArray(projects) && projects.length > 0 && <div className="flex flex-row gap-2 overflow-x-scroll">
-        {projects?.map((project, index) => (
-          <div
-            key={index}
-            className="flex min-w-full  md:min-w-[300px]  md:max-w-[250px] flex-col gap-1 text-gray-600 bg-white p-4 rounded-lg text-sm"
-          >
-            <span className=" self-end">
-              <AiOutlineClose
-                className="font-black cursor-pointer text-black"
-                onClick={() => removeProject(project)}
-              />
-            </span>
+      {projects && Array.isArray(projects) && projects.length > 0 && (
+        <div className="flex flex-row gap-2 overflow-x-scroll">
+          {projects?.map((project, index) => (
+            <div
+              key={index}
+              className="flex min-w-full  md:min-w-[300px]  md:max-w-[250px] flex-col gap-1 text-gray-600 bg-white p-4 rounded-lg text-sm"
+            >
+              <span className=" self-end">
+                <AiOutlineClose
+                  className="font-black cursor-pointer text-black"
+                  onClick={() => removeProject(project)}
+                />
+              </span>
 
-            <div className="grid grid-cols-3 md:grid-cols-1">
-              <img
-                src={project.projectImg}
-                height={300}
-                width={300}
-                className=" object-contain h-fit px-2  col-span-1"
-              />
-              <div className=" flex flex-col col-span-2 md:col-span-auto mt-2">
-                <span>{project?.projectName}</span>
-                <p className=" whitespace-normal">{project?.projectDesc}</p>
-              </div>
-              <div className="py-2 flex flex-row gap-2 flex-wrap col-span-3 md:col-span-1">
-                {handleTags(project).map((tag) => (
-                  <span className="p-2 rounded-full text-xs py-1 px-3 leading-5 bg-teal-400/50 text-teal-800">
-                    {tag}
-                  </span>
-                ))}
+              <div className="grid grid-cols-3 md:grid-cols-1">
+                <img
+                  src={project.projectImg}
+                  height={300}
+                  width={300}
+                  className=" object-contain h-fit px-2  col-span-1"
+                />
+                <div className=" flex flex-col col-span-2 md:col-span-auto mt-2">
+                  <span>{project?.projectName}</span>
+                  <p className=" whitespace-normal">{project?.projectDesc}</p>
+                </div>
+                <div className="py-2 flex flex-row gap-2 flex-wrap col-span-3 md:col-span-1">
+                  {handleTags(project).map((tag) => (
+                    <span className="p-2 rounded-full text-xs py-1 px-3 leading-5 bg-teal-400/50 text-teal-800">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>} 
+          ))}
+        </div>
+      )}
       <div class="mb-6">
         <label for="Name" class="block mb-2 text-sm font-medium text-gray-900 ">
           Project Name
@@ -145,8 +141,11 @@ function ProjectsForm(props) {
         ></input>
       </div>
       <div className="mb-6">
-        <label className="mb-2 text-sm font-medium text-gray-900 flex gap-2" htmlFor="file_input">
-          Project Image URL
+        <label
+          className="mb-2 text-sm font-medium text-gray-900 flex gap-2"
+          htmlFor="file_input"
+        >
+          Project Image
           <Tooltip
             content="Upload image using the button below"
             style="light"
@@ -156,23 +155,29 @@ function ProjectsForm(props) {
           </Tooltip>
         </label>
 
-        <input
-          type="text"
-          value={projectData.projectImg}
-          id="name"
-          onChange={(e) => setProjectData({ ...projectData, projectImg: e.target.value })}
-          className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="Upload Image URL or use the button below"
-        />
         <CldUploadButton
-  cloudName={cloudName}
-  uploadPreset={uploadPreset}
-  onUpload={handleUpload}
-  className="mt-2"
->
-  Upload Image
-</CldUploadButton>
-
+          cloudName={cloudName}
+          uploadPreset={uploadPreset}
+          onUpload={handleUpload}
+          className="mt-2 rounded-full bg-blue-600 hover:bg-white hover:text-black px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-blue-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+        >
+          Upload Image
+        </CldUploadButton>
+        <label
+          className="mb-2 text-sm font-medium text-gray-900 flex gap-2"
+          htmlFor="file_input"
+        >
+          Preview Image
+        </label>
+        {projectData?.projectImg && projectData?.projectImg !== "" && (
+          <img
+            src={projectData?.projectImg}
+            alt="profile img"
+            height="100"
+            width="100"
+            className="rounded-full"
+          />
+        )}
       </div>
       <button
         onClick={() => addProjects()}
@@ -187,12 +192,10 @@ function ProjectsForm(props) {
 const mapStateToProps = (state) => ({
   projects: state.projects,
   projectData: state.projectData,
-  
-})
+});
 const mapDispatchToProps = (dispatch) => ({
   setProjectData: (value) => dispatch(setProjectData(value)),
   setProjects: (value) => dispatch(setProjects(value)),
-
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(ProjectsForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsForm);
