@@ -3,13 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { Expletus_Sans } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { AiOutlineMenu } from "react-icons/ai";
-import logo from "../public/assets/images/rlogo.svg";
 import { connect } from "react-redux";
 import { getPortfolio, setDialog } from "../components/redux/Action";
+import newLogo from "../public/assets/images/logoo.svg";
 
-const ExpletusSans = Expletus_Sans({
+const ExpletusSans = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   // style: ["italic", "normal"],
@@ -30,9 +30,8 @@ const Nav = (props) => {
   return (
     <nav className="flex flex-row justify-between p-3 w-full mb-6">
       <Link href="/" className="flex gap-2 flex-center">
-        {console.log(logo, "logo")}
         <Image
-          src={logo}
+          src={newLogo}
           className="object-contain"
           width={30}
           height={30}
@@ -162,6 +161,15 @@ const Nav = (props) => {
                 >
                   <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
                     Home
+                  </div>
+                </Link>
+                <Link
+                  href={`/main/profile`}
+                  className="w-full rounded-lg"
+                  onClick={() => setToggle(false)}
+                >
+                  <div className="w-full text-center text-sm text-gray-700 hover:bg-gray-100 py-2">
+                    Profile
                   </div>
                 </Link>
                 {props.portfolioData &&

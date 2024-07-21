@@ -33,6 +33,8 @@ const initialState = {
   providers: null,
   showDialog: false,
   showProfileDialog: false,
+  deletePortfolioResult: null,
+  showDeleteDialog: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -41,8 +43,7 @@ export const reducer = (state = initialState, action) => {
       ...state,
       loading: true,
     };
-  } 
-   else {
+  } else {
     switch (action.type) {
       case "SET_USER_PROFILE_DATA":
         return { ...state, userProfileData: action.payload };
@@ -65,22 +66,24 @@ export const reducer = (state = initialState, action) => {
         return { ...state, contactData: action.payload };
       case types.SET_EXPERIENCE_DATA:
         return { ...state, experienceData: action.payload };
+      case types.SET_DELETE_DIALOG:
+        return { ...state, showDeleteDialog: action.payload };
+      case types.CLEAR_ALERT_MESSAGE:
+        return { ...state, deletePortfolioResult: action.payload };
       case `${types.GET_PORTFOLIO}/fulfilled`:
         return {
           ...state,
           portfolioData: action.payload,
           loading: false,
         };
-        case `${types.GET_PORTFOLIO}/rejected`:
-          console.log(action.payload);
+      case `${types.GET_PORTFOLIO}/rejected`:
         return {
           ...state,
-          portfolioData: {success:false},
+          portfolioData: { success: false },
           loading: false,
         };
 
       case `${types.GET_USER}/fulfilled`:
-        console.log(action.payload);
         return {
           ...state,
           userProfileData: action.payload,
@@ -95,6 +98,18 @@ export const reducer = (state = initialState, action) => {
         return {
           ...state,
           loading: false,
+        };
+      case `${types.DELETE_PORTFOLIO}/fulfilled`:
+        return {
+          ...state,
+          loading: false,
+          deletePortfolioResult: action.payload,
+        };
+      case `${types.DELETE_PORTFOLIO}/rejected`:
+        return {
+          ...state,
+          loading: false,
+          deletePortfolioResult: action.payload,
         };
 
       default:

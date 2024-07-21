@@ -11,6 +11,7 @@ const nextConfig = {
         pathname: "/a/**",
       },
     ],
+    formats: ["image/webp"],
     domains: [
       "storage.googleapis.com",
       "res.cloudinary.com",

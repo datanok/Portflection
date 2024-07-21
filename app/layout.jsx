@@ -1,12 +1,12 @@
 import Providers from "@components/Provider";
 import "@styles/globals.css";
-import { Inter, Expletus_Sans } from "next/font/google";
+import { Roboto, Expletus_Sans } from "next/font/google";
 
-const inter = Inter({
+const inter = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700", "900"],
   display: "swap",
-    adjustFontFallback: false,
+  adjustFontFallback: false,
 });
 export const metadata = {
   title: "Portflection: Crafting Stunning Portfolios",
