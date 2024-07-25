@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "./Alert";
+import toast, { Toaster } from "react-hot-toast";
 import { setShowDeleteDialog } from "./redux/Action";
 
 const AlertManager = () => {
