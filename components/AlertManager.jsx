@@ -1,37 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Alert from "./Alert";
+import React, { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { setShowDeleteDialog } from "./redux/Action";
+import { useSelector, useDispatch } from "react-redux";
+import { clearAlert } from "./redux/Action";
 
 const AlertManager = () => {
-  const [showAlert, setShowAlert] = useState(false);
-  const deletePortfolioResult = useSelector(
-    (state) => state.deletePortfolioResult
-  );
+  const alert = useSelector((state) => state.alert);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (deletePortfolioResult) {
-      setShowAlert(true);
-      dispatch(setShowDeleteDialog(false));
+    if (alert) {
+      if (alert.success) {
+        toast.success(alert.message);
+      } else {
+        toast.error(alert.message);
+      }
+      // Automatically clear alert after showing
+      dispatch(clearAlert());
     }
-  }, [deletePortfolioResult]);
+  }, [alert, dispatch]);
 
-  const handleDismiss = () => {
-    setShowAlert(false);
-    dispatch(setShowDeleteDialog(false));
-  };
-
-  if (!showAlert || !deletePortfolioResult) return null;
-
-  return (
-    <Alert
-      success={deletePortfolioResult.success}
-      message={deletePortfolioResult.message}
-      onDismiss={handleDismiss}
-    />
-  );
+  return <Toaster position="top-center" />;
 };
 
 export default AlertManager;

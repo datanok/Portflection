@@ -42,7 +42,7 @@ function ProjectsForm(props) {
     setProjects(updatedProjects);
   };
   const handleTags = (project) => {
-    const tags = project.projectTags.split(",");
+    const tags = project?.projectTags?.split(",");
     return tags;
   };
   const handleUpload = (result) => {
@@ -77,7 +77,7 @@ function ProjectsForm(props) {
                   <p className=" whitespace-normal">{project?.projectDesc}</p>
                 </div>
                 <div className="py-2 flex flex-row gap-2 flex-wrap col-span-3 md:col-span-1">
-                  {handleTags(project).map((tag) => (
+                  {handleTags(project)?.map((tag) => (
                     <span className="p-2 rounded-full text-xs py-1 px-3 leading-5 bg-teal-400/50 text-teal-800">
                       {tag}
                     </span>

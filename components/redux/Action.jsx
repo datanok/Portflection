@@ -1,4 +1,5 @@
 import * as types from "./Reducers/types";
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const setUserData = (userData) => ({
@@ -47,20 +48,38 @@ export const setShowDeleteDialog = (payload) => ({
   type: types.SET_DELETE_DIALOG,
   payload: payload,
 });
+export const showAlert = (message, success = true) => ({
+  type: SHOW_ALERT,
+  payload: { message, success },
+});
 
+// Action to clear alert
+export const clearAlert = () => ({
+  type: types.CLEAR_ALERT,
+});
+
+// Create the async thunk
 export const getPortfolio = createAsyncThunk(
   types.GET_PORTFOLIO,
-  async (userId, { dispatch }) => {
+  async (userId, { rejectWithValue }) => {
     const apiUrl = `/api/portfolio/view/${userId}`;
     try {
       const response = await fetch(apiUrl);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue({ errorData, noAlert: true });
+      }
       const data = await response.json();
-      return data;
+      return { data, noAlert: true };
     } catch (err) {
-      throw err;
+      return rejectWithValue({
+        message: err.message || "Failed to fetch portfolio",
+        noAlert: true,
+      });
     }
   }
 );
+
 export const getUser = createAsyncThunk(
   types.GET_USER,
   async (id, { dispatch }) => {
@@ -91,12 +110,12 @@ export const deleteUser = createAsyncThunk(
         return rejectWithValue(data);
       }
 
-      return data;
+      return { data, noAlert: false };
     } catch (err) {
       return rejectWithValue({
         success: false,
-        message: "An error occurred",
-        error: err.message,
+        message: err.message || "Failed to fetch portfolio",
+        noAlert: true,
       });
     }
   }

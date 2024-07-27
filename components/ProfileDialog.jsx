@@ -10,10 +10,12 @@ function profileDialog(props) {
   const [selectedAvatar, setAvatar] = useState("");
 
   const Avatars = [
-    { name: "male1", icon: "/assets/images/avatar1.jpg" },
-    { name: "male2", icon: "/assets/images/avatar2.jpg" },
-    { name: "female1", icon: "/assets/images/avatar2.jpg" },
-    { name: "female2", icon: "/assets/images/avatar4.jpg" },
+    { name: "avatar1", icon: "/assets/images/avatar1.png" },
+    { name: "avatar2", icon: "/assets/images/avatar2.png" },
+    { name: "avatar3", icon: "/assets/images/avatar3.png" },
+    { name: "avatar4", icon: "/assets/images/avatar4.png" },
+    { name: "avatar5", icon: "/assets/images/avatar5.png" },
+    { name: "avatar6", icon: "/assets/images/avatar6.png" },
   ];
   const selectAvatar = (avatar) => {
     props.setUserData({ ...props.userData, profileImg: avatar.icon });
@@ -64,15 +66,18 @@ function profileDialog(props) {
                 src={avatar.icon}
                 alt={avatar.name}
                 className={
-                    "w-24 h-24 rounded-full  m-2 cursor-pointer hover:ring-4 ring-blue-500 " +
-                    (avatar.name === selectedAvatar ? "ring-4 ring-blue-500" : "")
-                  }
+                  "w-24 h-24 rounded-full  m-2 cursor-pointer hover:ring-4 ring-blue-500 " +
+                  (avatar.name === selectedAvatar ? "ring-4 ring-blue-500" : "")
+                }
                 onClick={() => selectAvatar(avatar)}
               />
             ))}
           </div>
           <div className="p-4 md:p-5">
-            <button onClick={()=> props.setProfileDialog(false)}className="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button
+              onClick={() => props.setProfileDialog(false)}
+              className="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
               Save
             </button>
           </div>

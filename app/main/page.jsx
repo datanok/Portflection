@@ -8,18 +8,15 @@ import { Montserrat } from "next/font/google";
 import { useSession, getProviders } from "next-auth/react";
 import { GrUpdate } from "react-icons/gr";
 import HeroImg from "@public/assets/images/hero.gif";
-import newLogo from "@public/assets/images/logoo.svg";
+import newLogo from "@public/assets/images/logoo.png";
 
 import { AiFillGithub, AiFillLinkedin, AiFillInstagram } from "react-icons/ai";
-import {
-  getPortfolio,
-  setDialog,
-  setProviders,
-} from "@components/redux/Action";
+import { setDialog, setProviders } from "@components/redux/Action";
 import { connect } from "react-redux";
 import Dialog from "@components/Dialog";
 import Loader from "@components/Loader/Loader";
 import ProfileDialog from "@components/ProfileDialog";
+import AlertManager from "@components/AlertManager";
 
 const ExpletusSans = Montserrat({
   subsets: ["latin"],
@@ -201,6 +198,7 @@ const Home = (props) => {
           </div>
         </footer>
       </div>
+      <AlertManager />
       {props.showDialog && <Dialog />}
       {props.showProfileDialog && <ProfileDialog />}
       {(status === "loading" || props.loading === true) && <Loader />}
@@ -216,7 +214,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getPortfolio,
   setProviders,
   setDialog,
 };

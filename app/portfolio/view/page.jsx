@@ -17,7 +17,7 @@ import { getPortfolio } from "@components/redux/Action";
 import NotFoundPage from "@app/portfolio/view/NotFoundPage";
 
 const Page = (props) => {
-  const {getPortfolio,loading} = props;
+  const { getPortfolio, loading } = props;
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -25,20 +25,22 @@ const Page = (props) => {
   const userID = searchParams.get("id");
 
   useEffect(() => {
-  
-    getPortfolio(userID)
+    getPortfolio(userID, {
+      meta: {
+        noAlert: true, // Set meta info to not show alert
+      },
+    });
   }, [userID]);
 
   useEffect(() => {
-    document.title = props.portfolioData?.userName
-  },[props.portfolioData?.userName])
+    document.title = props.portfolioData?.userName;
+  }, [props.portfolioData?.userName]);
 
   const [activeItem, setActiveItem] = useState("about");
 
   const handleItemClick = (item) => {
     setActiveItem(item);
   };
- 
 
   return (
     <>
@@ -54,7 +56,11 @@ const Page = (props) => {
       <div className="flex flex-col gap-4  text-[#9a9a9a] md:-my-[2em] z-30">
         {loading ? (
           <PortfolioLoading />
-        ) : props.portfolioData &&  props.portfolioData.hasOwnProperty("success") &&  !props.portfolioData.success ? <NotFoundPage/> : (
+        ) : props.portfolioData &&
+          props.portfolioData.hasOwnProperty("success") &&
+          !props.portfolioData.success ? (
+          <NotFoundPage />
+        ) : (
           <div className="w-full  flex justify-center max-w-screen-xl max-h-screen py-12 md:px-12 md:py-0 lg:px-24 lg:py-0">
             {/* Navigation */}
             <nav className="w-full md:w-[40%] flex-col hidden md:flex md:sticky md:max-h-screen md:my-0 md:py-8 md:justify-between md:flex-col ">
@@ -215,122 +221,126 @@ const Page = (props) => {
               </section>
               {/* Mobile view end*/}
 
-                <div
-                  className="flex flex-col gap-14 md:gap-20"
-                  id="about"
+              <div className="flex flex-col gap-14 md:gap-20" id="about">
+                {/* About */}
+                <section className="md:flex flex-col lg:mt-6 md:mt-40 sm:mt-8 lg:h-fit md:h-screen slide-in">
+                  <h2 className="text-md md:text-lg font-medium uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent mb-6">
+                    About
+                  </h2>
+
+                  <p className="text-primary-gray md:text-md text-ellipsis">
+                    {props.portfolioData?.about}
+                  </p>
+                </section>
+                {/* Experince */}
+                <section
+                  className="lg:h-fit md:h-screen animate-fadeIn "
+                  id="experience"
                 >
-                  {/* About */}
-                  <section className="md:flex flex-col lg:mt-6 md:mt-40 sm:mt-8 lg:h-fit md:h-screen slide-in">
-                    <h2 className="text-md md:text-lg font-medium uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent mb-6">
-                      About
-                    </h2>
+                  <h2 className="text-md md:text-lg font-medium uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent mb-6">
+                    Experience
+                  </h2>
+                  <div className="container mx-2 md:mx-auto">
+                    <ol className="ml-[1em] relative border-l border-gray-500/30">
+                      {props.portfolioData &&
+                        props.portfolioData.experiences &&
+                        Array.isArray(props.portfolioData.experiences) &&
+                        props.portfolioData?.experiences?.map(
+                          (experience, index) => (
+                            <li
+                              className="pb-10 pl-6 transition motion-reduce:transition-none group md:hover:bg-gray-500/10 lg:hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:hover:drop-shadow-lg hover:bg-opacity-10"
+                              key={index}
+                            >
+                              <span className="absolute group-hover:bg-slate-300 flex items-center justify-center w-6 h-6 bg-gray-500/10 rounded-full -left-3 ring-2 ring-gray-500/30 z-3 ">
+                                <AiTwotoneCalendar className="group-hover:text-black" />
+                              </span>
 
-                    <p className="text-primary-gray md:text-md text-ellipsis">
-                      {props.portfolioData?.about}
-                    </p>
-                  </section>
-                  {/* Experince */}
+                              <h3 className="flex  gap-2 mb-1 text-md font-semibold whitespace-nowrap text-gray-400 group-hover:text-white ">
+                                <time className="">{experience.tenure}</time>
+                                <span>&#8226;</span>
+                                <span>{experience.company}</span>
+                              </h3>
+                              <p>{experience.designation}</p>
+                              <p className="mb-4 text-sm font-normal text-primary-gray ">
+                                {experience.accomplishments}
+                              </p>
+                            </li>
+                          )
+                        )}
+                    </ol>
+                  </div>
+                  {/* Skills */}
                   <section
-                    className="lg:h-fit md:h-screen animate-fadeIn "
-                    id="experience"
+                    className="lg:h-fit mt-10 animate-fadeIn "
+                    id="skills"
                   >
-                    <h2 className="text-md md:text-lg font-medium uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent mb-6">
-                      Experience
+                    <h2 className="text-md md:text-lg font-medium  uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent mb-6">
+                      Skills
                     </h2>
-                    <div className="container mx-2 md:mx-auto">
-                      <ol className="ml-[1em] relative border-l border-gray-500/30">
-                        { props.portfolioData && props.portfolioData.experiences && Array.isArray(props.portfolioData.experiences) && props.portfolioData?.experiences?.map((experience, index) => (
-                          <li
-                            className="pb-10 pl-6 transition motion-reduce:transition-none group md:hover:bg-gray-500/10 lg:hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:hover:drop-shadow-lg hover:bg-opacity-10"
-                            key={index}
-                          >
-                            <span className="absolute group-hover:bg-slate-300 flex items-center justify-center w-6 h-6 bg-gray-500/10 rounded-full -left-3 ring-2 ring-gray-500/30 z-3 ">
-                              <AiTwotoneCalendar className="group-hover:text-black" />
+
+                    {props.portfolioData &&
+                    props.portfolioData?.skills &&
+                    props.portfolioData?.skills ? (
+                      <div className=" ml-[1em] flex gap-4 flex-wrap">
+                        {props.portfolioData?.skills
+                          .split(",")
+                          .map((skill, index) => (
+                            <span className="text-sm  uppercase hover:px-6 tracking-widest transition-all hover:scale-x-200 ease-in-out delay-100  outline outline-1 outline-gray-400 hover:outline-gray-300 rounded-full p-1 px-2 bg-primary-gray text-gray-300 hover:text-gray-200 bg-opacity-20 backdrop-blur-lg ">
+                              {skill}
                             </span>
+                          ))}
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </section>
+                </section>
 
-                            <h3 className="flex  gap-2 mb-1 text-md font-semibold whitespace-nowrap text-gray-400 group-hover:text-white ">
-                              <time className="">{experience.tenure}</time>
-                              <span>&#8226;</span>
-                              <span>{experience.company}</span>
-                            </h3>
-                            <p>{experience.designation}</p>
-                            <p className="mb-4 text-sm font-normal text-primary-gray ">
-                              {experience.accomplishments}
+                {/* Projects */}
+                <section
+                  id="projects"
+                  className="flex flex-col gap-4 md:h-fit lg:h-screen animate-fadeIn"
+                >
+                  <h1 className="text-md md:text-lg font-medium uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent">
+                    Projects
+                  </h1>
+                  <div className="flex flex-col sm:mx-2 gap-4">
+                    {props.portfolioData?.projects?.map((project, index) => (
+                      <>
+                        <div
+                          key={index}
+                          className="text-lg grid grid-cols-6 grid-flow-row gap-2 p-2 rounded-lg group transition motion-reduce:transition-none lg:-inset-x-6  lg:hover:bg-gray-500/10 lg:hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:hover:drop-shadow-lg hover:bg-opacity-10 "
+                        >
+                          <img
+                            src={project?.projectImg}
+                            loading="lazy"
+                            width={200}
+                            height={30}
+                            alt="Project Image"
+                            className="rounded-lg col-span-6 order-2 md:col-span-2 md:order-1"
+                          />
+                          <div className="col-span-6 md:order-2 order-1 md:col-span-4">
+                            <h2 className="text-md font-bold group-hover:text-white flex gap-2 hover:cursor-pointer">
+                              {project.projectName}
+                              <AiOutlineLink className="group:hover:text-white mt-1 group-hover:tex" />
+                            </h2>
+                            <p className="text-sm text-primary-gray w-fit">
+                              {project.projectDesc}
                             </p>
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-                    {/* Skills */}
-                    <section
-                      className="lg:h-fit mt-10 animate-fadeIn "
-                      id="skills"
-                    >
-                      <h2 className="text-md md:text-lg font-medium  uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent mb-6">
-                        Skills
-                      </h2>
-
-                      {props.portfolioData && props.portfolioData?.skills && props.portfolioData?.skills ? (
-                        <div className=" ml-[1em] flex gap-4 flex-wrap">
-                          {props.portfolioData?.skills
-                            .split(",")
-                            .map((skill, index) => (
-                              <span className="text-sm  uppercase hover:px-6 tracking-widest transition-all hover:scale-x-200 ease-in-out delay-100  outline outline-1 outline-gray-400 hover:outline-gray-300 rounded-full p-1 px-2 bg-primary-gray text-gray-300 hover:text-gray-200 bg-opacity-20 backdrop-blur-lg ">
-                                {skill}
+                          </div>
+                          <div className="flex gap-2 flex-wrap col-span-6  order-3">
+                            {project.projectTags.split(",").map((tag) => (
+                              <span className=" rounded-full  text-xs py-1 px-3 leading-5 bg-teal-400/10 text-teal-300">
+                                {tag}
                               </span>
                             ))}
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                    </section>
-                  </section>
-
-                  {/* Projects */}
-                  <section
-                    id="projects"
-                    className="flex flex-col gap-4 md:h-fit lg:h-screen animate-fadeIn"
-                  >
-                    <h1 className="text-md md:text-lg font-medium uppercase tracking-widest bg-gradient-to-r from-[#9a9a9a] to-gray-400 bg-clip-text text-transparent">
-                      Projects
-                    </h1>
-                    <div className="flex flex-col sm:mx-2 gap-4">
-                      {props.portfolioData?.projects?.map((project, index) => (
-                        <>
-                          <div
-                            key={index}
-                            className="text-lg grid grid-cols-6 grid-flow-row gap-2 p-2 rounded-lg group transition motion-reduce:transition-none lg:-inset-x-6  lg:hover:bg-gray-500/10 lg:hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:hover:drop-shadow-lg hover:bg-opacity-10 "
-                          >
-                            <img
-                              src={project?.projectImg}
-                              loading="lazy"
-                              width={200}
-                              height={30}
-                              alt="Project Image"
-                              className="rounded-lg col-span-6 order-2 md:col-span-2 md:order-1"
-                            />
-                            <div className="col-span-6 md:order-2 order-1 md:col-span-4">
-                              <h2 className="text-md font-bold group-hover:text-white flex gap-2 hover:cursor-pointer">
-                                {project.projectName}
-                                <AiOutlineLink className="group:hover:text-white mt-1 group-hover:tex" />
-                              </h2>
-                              <p className="text-sm text-primary-gray w-fit">
-                                {project.projectDesc}
-                              </p>
-                            </div>
-                            <div className="flex gap-2 flex-wrap col-span-6  order-3">
-                              {project.projectTags.split(",").map((tag) => (
-                                <span className=" rounded-full  text-xs py-1 px-3 leading-5 bg-teal-400/10 text-teal-300">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
                           </div>
-                        </>
-                      ))}
-                    </div>
-                  </section>
-                </div>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                </section>
+              </div>
             </div>
           </div>
         )}
@@ -365,12 +375,11 @@ const Page = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  portfolioData:state.portfolioData,
-  loading:state.loading
+  portfolioData: state.portfolioData,
+  loading: state.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getPortfolio: (value) => dispatch(getPortfolio(value)),
-
+  getPortfolio: (userId, meta) => dispatch(getPortfolio(userId, meta)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Page);

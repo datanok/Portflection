@@ -7,7 +7,7 @@ import { Montserrat } from "next/font/google";
 import { AiOutlineMenu } from "react-icons/ai";
 import { connect } from "react-redux";
 import { getPortfolio, setDialog } from "../components/redux/Action";
-import newLogo from "../public/assets/images/logoo.svg";
+import newLogo from "../public/assets/images/logoo.png";
 
 const ExpletusSans = Montserrat({
   subsets: ["latin"],
@@ -23,7 +23,11 @@ const Nav = (props) => {
 
   useEffect(() => {
     if (session && !props.portfolioData) {
-      props.getPortfolio(session.user.id);
+      props.getPortfolio(session.user.id, {
+        meta: {
+          noAlert: true, // Set meta info to not show alert
+        },
+      });
     }
   }, [session]);
 
@@ -238,8 +242,7 @@ const mapStateToProps = (state) => ({
   loading: state.loading,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getPortfolio: (value) => dispatch(getPortfolio(value)),
+  getPortfolio: (userId, meta) => dispatch(getPortfolio(userId, meta)),
   setDialog: (value) => dispatch(setDialog(value)),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);
