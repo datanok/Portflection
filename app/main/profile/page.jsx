@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import ProfileLoading from "./ProfileLoading";
 import Image from "next/image";
 import DeleteDialog from "@components/DeleteDialog";
-import Alert from "@components/Alert";
 import AlertManager from "@components/AlertManager";
 
 function Page(props) {
