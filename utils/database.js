@@ -1,21 +1,38 @@
-import mongoose from 'mongoose'
+// utils/db.js
+import mongoose from 'mongoose';
 
-let isConnected  = false;
+if (!process.env.MONGODB_URI) {
+  throw new Error('Please add MongoDB URI to .env file')
+}
 
-export const connectToDB = async() => {
-    mongoose.set('strictQuery',true);
-    if(isConnected){
-        console.log('Mongodb is already connected');
-        return;
+let cached = global.mongoose
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null }
+}
+
+export async function connectToDB() {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      dbName: "portflection",
     }
-    try{
-        await mongoose.connect(process.env.MONGODB_URI,{
-            dbName:"portflection",
-        })
-        isConnected= true;
-        console.log('mongodb connected')
 
-    }catch(error){
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
+      return mongoose
+    })
+  }
 
-    }
+  try {
+    cached.conn = await cached.promise
+    console.log('MongoDB connected successfully')
+    return cached.conn
+  } catch (e) {
+    cached.promise = null
+    throw e
+  }
 }

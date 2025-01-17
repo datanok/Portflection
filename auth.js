@@ -30,6 +30,7 @@ export const {
       return token;
     },
     async session({ session, token }) {
+        console.log(session,"seassioun")
       if (session.user) {
         try {
           await connectToDB();
